@@ -1,8 +1,6 @@
 package database;
 
 import database.settings.Settings;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;

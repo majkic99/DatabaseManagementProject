@@ -23,8 +23,8 @@ public class TableModel extends DefaultTableModel {
         Vector columnVector = DefaultTableModel.convertToVector(rows.get(1).getFields().keySet().toArray());
         Vector dataVector = new Vector(columnCount);
 
-        for (int i=0; i<rows.size(); i++){
-            dataVector.add(DefaultTableModel.convertToVector(rows.get(i).getFields().values().toArray()));
+        for (Row row : rows) {
+            dataVector.add(DefaultTableModel.convertToVector(row.getFields().values().toArray()));
         }
         setDataVector(dataVector, columnVector);
     }

@@ -106,7 +106,7 @@ public class MainFrame extends JFrame implements Subscriber {
     public void update(Notification notification) {
 
         if (notification.getCode() == NotificationCode.RESOURCE_LOADED){
-            System.out.println((InformationResource)notification.getData());
+            System.out.println(notification.getData());
         }
 
         else{
