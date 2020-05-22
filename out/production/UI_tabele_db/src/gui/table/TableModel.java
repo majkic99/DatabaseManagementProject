@@ -1,6 +1,6 @@
 package gui.table;
 
-import lombok.Data;
+
 import resource.data.Row;
 import resource.implementation.Attribute;
 
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-@Data
+
 public class TableModel extends DefaultTableModel {
 
     private List<Row> rows;
@@ -32,5 +32,9 @@ public class TableModel extends DefaultTableModel {
     public void setRows(List<Row> rows) {
         this.rows = rows;
         updateModel();
+    }
+
+    public List<Row> getRows() {
+        return rows;
     }
 }

@@ -1,13 +1,11 @@
 package resource.implementation;
 
-import lombok.Data;
-import lombok.ToString;
+
 import resource.DBNode;
 import resource.DBNodeComposite;
 import resource.enums.AttributeType;
 
-@Data
-@ToString(callSuper = true)
+
 public class Attribute extends DBNodeComposite {
 
 

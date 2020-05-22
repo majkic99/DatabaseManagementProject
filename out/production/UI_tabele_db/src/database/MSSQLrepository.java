@@ -14,7 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 public class MSSQLrepository implements Repository{
 
     private Settings settings;
@@ -54,7 +54,7 @@ public class MSSQLrepository implements Repository{
             this.initConnection();
 
             DatabaseMetaData metaData = connection.getMetaData();
-            InformationResource ir = new InformationResource("RAF_BP_Primer");
+            InformationResource ir = new InformationResource("tim_8_bp2020");
 
             String tableType[] = {"TABLE"};
             ResultSet tables = metaData.getTables(connection.getCatalog(), null, null, tableType);
@@ -134,5 +134,21 @@ public class MSSQLrepository implements Repository{
         }
 
         return rows;
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }

@@ -1,6 +1,6 @@
 package gui.table;
 
-import lombok.Data;
+
 import resource.data.Row;
 import resource.implementation.Attribute;
 
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-@Data
+
 public class TableModel extends DefaultTableModel {
 
     private List<Row> rows;
@@ -23,8 +23,8 @@ public class TableModel extends DefaultTableModel {
         Vector columnVector = DefaultTableModel.convertToVector(rows.get(1).getFields().keySet().toArray());
         Vector dataVector = new Vector(columnCount);
 
-        for (int i=0; i<rows.size(); i++){
-            dataVector.add(DefaultTableModel.convertToVector(rows.get(i).getFields().values().toArray()));
+        for (Row row : rows) {
+            dataVector.add(DefaultTableModel.convertToVector(row.getFields().values().toArray()));
         }
         setDataVector(dataVector, columnVector);
     }

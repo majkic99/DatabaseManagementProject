@@ -2,7 +2,7 @@ package gui;
 
 import app.AppCore;
 import app.Main;
-import lombok.Data;
+
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
@@ -106,7 +106,7 @@ public class MainFrame extends JFrame implements Subscriber {
     public void update(Notification notification) {
 
         if (notification.getCode() == NotificationCode.RESOURCE_LOADED){
-            System.out.println((InformationResource)notification.getData());
+            System.out.println(notification.getData());
         }
 
         else{

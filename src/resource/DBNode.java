@@ -1,9 +1,5 @@
 package resource;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 
 public abstract class DBNode {

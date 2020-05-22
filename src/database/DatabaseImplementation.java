@@ -1,7 +1,6 @@
 package database;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
 import resource.DBNode;
 import resource.data.Row;
 

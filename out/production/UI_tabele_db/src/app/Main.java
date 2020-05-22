@@ -15,7 +15,7 @@ public class Main {
 
 
         mainFrame.getAppCore().readDataFromTable("dbo.DEPARTMENTS");
-        //mainFrame.getAppCore().loadResource();
+        mainFrame.getAppCore().loadResource();
 
 
     }
