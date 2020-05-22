@@ -1,10 +1,13 @@
 package database;
 
 import database.settings.Settings;
+import org.w3c.dom.Attr;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;
+import resource.enums.ConstraintType;
 import resource.implementation.Attribute;
+import resource.implementation.AttributeConstraint;
 import resource.implementation.Entity;
 import resource.implementation.InformationResource;
 
@@ -75,7 +78,36 @@ public class MSSQLrepository implements Repository{
                     Attribute attribute = new Attribute(columnName, newTable, AttributeType.valueOf(columnType.toUpperCase()), columnSize);
                     newTable.addChild(attribute);
 
+                    String defValue = columns.getString("COLUMN_DEF");
+                    if (defValue != null){
+                        AttributeConstraint defValCons = new AttributeConstraint(defValue, attribute, ConstraintType.DEFAULT_VALUE);
+                        attribute.addChild(defValCons);
+                    }
+
+                    String isNullable = columns.getString("IS_NULLABLE");
+                    if (isNullable.equals("NO")){
+                        AttributeConstraint nullConstraint = new AttributeConstraint("not null", attribute, ConstraintType.NOT_NULL);
+                        attribute.addChild(nullConstraint);
+                    }
+
+                    ResultSet primaryKeys = metaData.getPrimaryKeys(connection.getCatalog(), null, newTable.getName());
+                    while(primaryKeys.next()){
+                            if (columnName.equals(primaryKeys.getString("COLUMN_NAME"))) {
+                                AttributeConstraint pkConstraint = new AttributeConstraint("Primary Key", attribute, ConstraintType.PRIMARY_KEY);
+                                attribute.addChild(pkConstraint);
+                            }
+                    }
+                    ResultSet foreignKeys = metaData.getImportedKeys(connection.getCatalog(), null, newTable.getName());
+                    while(foreignKeys.next()){
+                        if (columnName.equals(foreignKeys.getString("FKCOLUMN_NAME"))) {
+                            AttributeConstraint fkConstraint = new AttributeConstraint("Foreign Key", attribute, ConstraintType.FOREIGN_KEY);
+                            attribute.addChild(fkConstraint);
+                        }
+                    }
+
+
                 }
+
 
             }
 

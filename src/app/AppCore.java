@@ -22,7 +22,15 @@ public class AppCore extends PublisherImplementation {
     private Database database;
     private Settings settings;
     private TableModel tableModel;
+    private InformationResource irRoot;
 
+    public InformationResource getIrRoot() {
+        return irRoot;
+    }
+
+    public void setIrRoot(InformationResource irRoot) {
+        this.irRoot = irRoot;
+    }
     public AppCore() {
         this.settings = initSettings();
         this.database = new DatabaseImplementation(new MSSQLrepository(this.settings));
@@ -40,8 +48,8 @@ public class AppCore extends PublisherImplementation {
 
 
     public void loadResource(){
-        InformationResource ir = (InformationResource) this.database.loadResource();
-        this.notifySubscribers(new Notification(NotificationCode.RESOURCE_LOADED,ir));
+        irRoot = (InformationResource) this.database.loadResource();
+        this.notifySubscribers(new Notification(NotificationCode.RESOURCE_LOADED,irRoot));
     }
 
     public void readDataFromTable(String fromTable){
