@@ -1,19 +1,16 @@
 package drvo;
 
-import gui.MainFrame;
 import resource.DBNodeComposite;
-import resource.implementation.Attribute;
 import resource.implementation.AttributeConstraint;
 import resource.implementation.InformationResource;
 
 import javax.swing.event.TreeModelListener;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-public class DrvoModel implements TreeModel {
+public class TreeModel implements javax.swing.tree.TreeModel {
     InformationResource ir;
 
-    public DrvoModel(InformationResource ir) {
+    public TreeModel(InformationResource ir) {
         this.ir = ir;
     }
 
@@ -43,11 +40,7 @@ public class DrvoModel implements TreeModel {
 
     @Override
     public boolean isLeaf(Object node) {
-        if (node instanceof AttributeConstraint){
-            return true;
-        }else{
-            return false;
-        }
+        return node instanceof AttributeConstraint;
     }
 
     @Override

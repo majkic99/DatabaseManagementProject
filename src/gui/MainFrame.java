@@ -2,19 +2,16 @@ package gui;
 
 import app.AppCore;
 
-import drvo.DrvoModel;
-import drvo.DrvoSlusac;
+import drvo.TreeCellRenderer;
+import drvo.TreeModel;
+import drvo.TreeController;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
-import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 
 public class MainFrame extends JFrame implements Subscriber {
@@ -56,7 +53,6 @@ public class MainFrame extends JFrame implements Subscriber {
 
         this.setTitle("DataBase Management 0.1");
 
-        center();
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -70,6 +66,7 @@ public class MainFrame extends JFrame implements Subscriber {
         setTree();
         setTable();
         center();
+
     }
 
     private void setTable() {
@@ -84,8 +81,9 @@ public class MainFrame extends JFrame implements Subscriber {
     }
 
     private void setTree(){
-        drvo = new JTree(new DrvoModel(appCore.getIrRoot()));
-        drvo.addTreeSelectionListener(new DrvoSlusac());
+        drvo = new JTree(new TreeModel(appCore.getIrRoot()));
+        drvo.addTreeSelectionListener(new TreeController());
+        drvo.setCellRenderer(new TreeCellRenderer());
         workspaceTreeScrollPane = new JScrollPane(drvo);
 
         horizontalSplit.setLeftComponent(workspaceTreeScrollPane);
@@ -95,11 +93,10 @@ public class MainFrame extends JFrame implements Subscriber {
     private void center() {
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        this.setSize(screenWidth/3 * 2, screenHeight/3 * 2);
+        setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
+        setLocation(screenSize.width/4, screenSize.height/4);
         pack();
-        this.setLocation(screenWidth/2, screenHeight/2);
+        horizontalSplit.setDividerLocation(getWidth()/3);
     }
 
     @Override
@@ -113,6 +110,10 @@ public class MainFrame extends JFrame implements Subscriber {
             jTable.setModel((TableModel) notification.getData());
         }
 
+    }
+
+    public void maximize() {
+        setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
     public static void setInstance(MainFrame instance) {

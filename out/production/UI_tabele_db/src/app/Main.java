@@ -17,6 +17,8 @@ public class Main {
 
         MainFrame mainFrame = MainFrame.getInstance();
         mainFrame.setAppCore(appCore);
+        mainFrame.maximize();    // My preferable choice
+
         //appCore.readDataFromTable("EMPLOYEES");
         /*
         for (DBNode db: appCore.getIrRoot().getChildren()
