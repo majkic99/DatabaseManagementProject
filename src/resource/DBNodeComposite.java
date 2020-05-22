@@ -7,8 +7,8 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@ToString(callSuper = true)
+
+
 public abstract class DBNodeComposite extends DBNode{
 
     private List<DBNode> children;
@@ -36,4 +36,11 @@ public abstract class DBNodeComposite extends DBNode{
         return null;
     }
 
+    public List<DBNode> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<DBNode> children) {
+        this.children = children;
+    }
 }

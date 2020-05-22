@@ -5,8 +5,7 @@ import lombok.ToString;
 import resource.DBNode;
 import resource.DBNodeComposite;
 
-@Data
-@ToString(callSuper = true)
+
 public class Entity extends DBNodeComposite {
 
     public Entity(String name, DBNode parent) {

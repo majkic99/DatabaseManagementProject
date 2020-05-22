@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.HashMap;
 import java.util.Map;
 
-@Data
 public class Row {
 
     private String name;
@@ -26,4 +25,19 @@ public class Row {
         this.fields.remove(fieldName);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Map<String, Object> getFields() {
+        return fields;
+    }
+
+    public void setFields(Map<String, Object> fields) {
+        this.fields = fields;
+    }
 }

@@ -7,11 +7,14 @@ import resource.data.Row;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+
 public class DatabaseImplementation implements Database {
 
     private Repository repository;
+
+    public DatabaseImplementation(Repository repository) {
+        this.repository = repository;
+    }
 
 
     @Override
@@ -22,5 +25,13 @@ public class DatabaseImplementation implements Database {
     @Override
     public List<Row> readDataFromTable(String tableName) {
         return repository.get(tableName);
+    }
+
+    public Repository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
     }
 }

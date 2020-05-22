@@ -6,8 +6,7 @@ import resource.DBNode;
 import resource.DBNodeComposite;
 
 
-@Data
-@ToString(callSuper = true)
+
 public class InformationResource extends DBNodeComposite {
 
 

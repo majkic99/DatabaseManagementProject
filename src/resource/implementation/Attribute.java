@@ -6,8 +6,7 @@ import resource.DBNode;
 import resource.DBNodeComposite;
 import resource.enums.AttributeType;
 
-@Data
-@ToString(callSuper = true)
+
 public class Attribute extends DBNodeComposite {
 
 

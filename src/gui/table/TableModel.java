@@ -33,4 +33,8 @@ public class TableModel extends DefaultTableModel {
         this.rows = rows;
         updateModel();
     }
+
+    public List<Row> getRows() {
+        return rows;
+    }
 }

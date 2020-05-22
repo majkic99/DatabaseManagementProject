@@ -14,7 +14,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.util.Vector;
 
-@Data
+
 public class MainFrame extends JFrame implements Subscriber {
 
     private static MainFrame instance = null;
@@ -35,6 +35,38 @@ public class MainFrame extends JFrame implements Subscriber {
             instance.initialise();
         }
         return instance;
+    }
+
+    public static void setInstance(MainFrame instance) {
+        MainFrame.instance = instance;
+    }
+
+    public AppCore getAppCore() {
+        return appCore;
+    }
+
+    public JTable getjTable() {
+        return jTable;
+    }
+
+    public void setjTable(JTable jTable) {
+        this.jTable = jTable;
+    }
+
+    public JScrollPane getJsp() {
+        return jsp;
+    }
+
+    public void setJsp(JScrollPane jsp) {
+        this.jsp = jsp;
+    }
+
+    public JPanel getBottomStatus() {
+        return bottomStatus;
+    }
+
+    public void setBottomStatus(JPanel bottomStatus) {
+        this.bottomStatus = bottomStatus;
     }
 
 
