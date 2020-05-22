@@ -17,7 +17,7 @@ public class Main {
 
         MainFrame mainFrame = MainFrame.getInstance();
         mainFrame.setAppCore(appCore);
-
+        //appCore.readDataFromTable("EMPLOYEES");
         /*
         for (DBNode db: appCore.getIrRoot().getChildren()
              ) {

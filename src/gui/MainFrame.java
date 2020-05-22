@@ -1,18 +1,20 @@
 package gui;
 
 import app.AppCore;
-import app.Main;
 
+import drvo.DrvoModel;
+import drvo.DrvoSlusac;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
-import resource.implementation.InformationResource;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.util.Vector;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
 public class MainFrame extends JFrame implements Subscriber {
@@ -23,7 +25,8 @@ public class MainFrame extends JFrame implements Subscriber {
     private JTable jTable;
     private JScrollPane jsp;
     private JPanel bottomStatus;
-
+    private JScrollPane workspaceTreeScrollPane;
+    private JTree drvo;
 
     private MainFrame() {
 
@@ -77,15 +80,10 @@ public class MainFrame extends JFrame implements Subscriber {
         jTable = new JTable();
         jTable.setPreferredScrollableViewportSize(new Dimension(500, 400));
         jTable.setFillsViewportHeight(true);
-        this.add(new JScrollPane(jTable));
+        //this.add(new JScrollPane(jTable));
 
 
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = kit.getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        this.setSize(screenWidth / 2, screenHeight / 2);
-        this.setTitle("DataBase Management 0.1");
+
 
 
         this.pack();
@@ -99,8 +97,24 @@ public class MainFrame extends JFrame implements Subscriber {
         this.appCore = appCore;
         this.appCore.addSubscriber(this);
         this.jTable.setModel(appCore.getTableModel());
+        setTree();
     }
 
+    private void setTree(){
+        drvo = new JTree(new DrvoModel(appCore.getIrRoot()));
+        drvo.addTreeSelectionListener(new DrvoSlusac());
+        workspaceTreeScrollPane = new JScrollPane(drvo);
+
+        this.add(workspaceTreeScrollPane);
+        this.setVisible(true);
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        this.setSize(screenWidth/2, screenHeight/2);
+        this.setTitle("DataBase Management 0.1");
+        this.setLocation(screenWidth/2-this.getSize().width/2, screenHeight/2-this.getSize().height/2);
+    }
 
     @Override
     public void update(Notification notification) {
