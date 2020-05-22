@@ -78,7 +78,7 @@ public class MainFrame extends JFrame implements Subscriber {
 //        jTable.setPreferredScrollableViewportSize(new Dimension(500, 400));
         jTable.setFillsViewportHeight(true);
 
-        verticalSplit.setTopComponent(new JScrollPane(jTable));
+        verticalSplit.setTopComponent(new JScrollPane(jTable)); //.
 
 
     }
