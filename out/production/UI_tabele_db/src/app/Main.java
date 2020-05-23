@@ -1,6 +1,7 @@
 package app;
 
 import gui.MainFrame;
+import gui.table.TableModel;
 import resource.DBNode;
 import resource.DBNodeComposite;
 import resource.data.Row;
@@ -18,6 +19,9 @@ public class Main {
         MainFrame mainFrame = MainFrame.getInstance();
         mainFrame.setAppCore(appCore);
         mainFrame.maximize();    // My preferable choice
+
+        TableModel tm = new TableModel();
+
 
         //appCore.readDataFromTable("EMPLOYEES");
         /*

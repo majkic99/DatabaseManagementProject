@@ -3,6 +3,7 @@ package gui.table;
 
 import resource.data.Row;
 import resource.implementation.Attribute;
+import resource.implementation.Entity;
 
 import javax.swing.table.DefaultTableModel;
 import java.lang.reflect.Array;
@@ -14,7 +15,6 @@ import java.util.Vector;
 public class TableModel extends DefaultTableModel {
 
     private List<Row> rows;
-
 
     private void updateModel(){
 

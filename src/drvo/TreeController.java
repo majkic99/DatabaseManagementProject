@@ -1,6 +1,8 @@
 package drvo;
 
 import gui.MainFrame;
+import gui.table.TableView;
+import javafx.scene.control.Tab;
 import resource.implementation.Attribute;
 import resource.implementation.AttributeConstraint;
 import resource.implementation.Entity;
@@ -9,6 +11,8 @@ import resource.implementation.InformationResource;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
+import java.awt.*;
+
 
 public class TreeController implements TreeSelectionListener {
 
@@ -21,11 +25,36 @@ public class TreeController implements TreeSelectionListener {
         Object node = selectedNode.getLastPathComponent();
         if (node == null)
             return;
+
         TreePath path = e.getPath();
         for(int i=0; i<path.getPathCount(); i++){
             if(path.getPathComponent(i) instanceof Entity){
                 Entity entity = (Entity) path.getPathComponent(i);
+
                 MainFrame.getInstance().getAppCore().readDataFromTable(entity.getName());
+
+                // ID povezuje entity sa TableView komponentom, da bi znali koje smo vec ucitali,
+                // i te vec ucitane samo stavimo u fokus
+
+                boolean has = false;
+
+                if(MainFrame.getInstance().getUsed().contains(entity.getID())) {
+                    has = true;
+                    MainFrame.getInstance().setCurrentTV(MainFrame.getInstance().getTVByID(entity.getID()));
+                }
+
+
+                // Ako do sad nije otvarana odabrana tabela
+                if(!has) {
+                    MainFrame.getInstance().addUsed(entity.getID());
+                    TableView tv = new TableView(entity.getID());
+                    tv.setName(entity.getName());
+                    tv.getTable().setModel(MainFrame.getInstance().getAppCore().getTableModel());
+                    MainFrame.getInstance().getTopTab().add(tv);
+                    MainFrame.getInstance().setCurrentTV(tv);
+                }
+
+
                 break;
             }
         }

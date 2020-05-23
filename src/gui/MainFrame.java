@@ -5,6 +5,7 @@ import app.AppCore;
 import drvo.TreeCellRenderer;
 import drvo.TreeModel;
 import drvo.TreeController;
+import gui.table.TableView;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
@@ -12,20 +13,25 @@ import observer.enums.NotificationCode;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class MainFrame extends JFrame implements Subscriber {
 
     private static MainFrame instance = null;
 
+    private JTabbedPane topTab;
+    private JTabbedPane botTab;
     private AppCore appCore;
-    private JTable jTable;
     private JScrollPane jsp;
     private JPanel bottomStatus;
     private JScrollPane workspaceTreeScrollPane;
     private JTree drvo;
     private JSplitPane horizontalSplit;
     private JSplitPane verticalSplit;
+    private TableView currentTV;
+
+    private ArrayList<Integer> used;
 
 
     private MainFrame() {
@@ -34,7 +40,9 @@ public class MainFrame extends JFrame implements Subscriber {
         verticalSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         this.add(horizontalSplit, BorderLayout.CENTER);
         horizontalSplit.setRightComponent(verticalSplit);
-        jTable = new JTable();
+        topTab = new JTabbedPane();
+        botTab = new JTabbedPane();
+        used = new ArrayList<>();
 
     }
 
@@ -53,6 +61,10 @@ public class MainFrame extends JFrame implements Subscriber {
 
         this.setTitle("DataBase Management 0.1");
 
+        verticalSplit.setTopComponent(topTab);
+        verticalSplit.setBottomComponent(botTab);
+
+
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -62,23 +74,22 @@ public class MainFrame extends JFrame implements Subscriber {
     public void setAppCore(AppCore appCore) {
         this.appCore = appCore;
         this.appCore.addSubscriber(this);
-        this.jTable.setModel(appCore.getTableModel());
         setTree();
-        setTable();
+        setTabs();
         center();
 
     }
 
-    private void setTable() {
-
+    private void setTabs() {
 
 //        jTable.setPreferredScrollableViewportSize(new Dimension(500, 400));
-        jTable.setFillsViewportHeight(true);
-
-        verticalSplit.setTopComponent(new JScrollPane(jTable));
+//        jTable.setFillsViewportHeight(true);
+//        verticalSplit.setTopComponent(new JScrollPane(jTable));
         JLabel placeholder = new JLabel();
         verticalSplit.setBottomComponent(placeholder);
+//        verticalSplit.setBottomComponent(bottomTabbedPane);
         verticalSplit.setResizeWeight(0.35);
+//
 
 
     }
@@ -110,7 +121,8 @@ public class MainFrame extends JFrame implements Subscriber {
         }
 
         else{
-            jTable.setModel((TableModel) notification.getData());
+            TableView tv = (TableView) topTab.getSelectedComponent();
+            tv.getTable().setModel((TableModel) notification.getData());
         }
 
     }
@@ -127,13 +139,6 @@ public class MainFrame extends JFrame implements Subscriber {
         return appCore;
     }
 
-    public JTable getjTable() {
-        return jTable;
-    }
-
-    public void setjTable(JTable jTable) {
-        this.jTable = jTable;
-    }
 
     public JScrollPane getJsp() {
         return jsp;
@@ -149,5 +154,41 @@ public class MainFrame extends JFrame implements Subscriber {
 
     public void setBottomStatus(JPanel bottomStatus) {
         this.bottomStatus = bottomStatus;
+    }
+
+    public JTabbedPane getTopTab() {
+        return topTab;
+    }
+
+    public JTabbedPane getBotTab() {
+        return botTab;
+    }
+
+    public TableView getCurrentTV() {
+        return currentTV;
+    }
+
+    public void setCurrentTV(TableView currentTV) {
+        this.currentTV = currentTV;
+        topTab.setSelectedComponent(currentTV);
+    }
+
+    public void addUsed(int num) {
+        used.add(num);
+    }
+
+    public ArrayList<Integer> getUsed() {
+        return used;
+    }
+
+    public TableView getTVByID(int ID) {
+        Component[] tabs = topTab.getComponents();
+        for(int i = 0; i < tabs.length; i++) {
+            TableView tv = (TableView) tabs[i];
+            if(tv.getID() == ID) {
+                return tv;
+            }
+        }
+        return null;
     }
 }
