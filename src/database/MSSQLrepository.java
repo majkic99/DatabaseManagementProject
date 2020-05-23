@@ -63,9 +63,10 @@ public class MSSQLrepository implements Repository{
             while (tables.next()){
 
                 String tableName = tables.getString("TABLE_NAME");
+                if (tableName.equals("trace_xe_action_map")){break;}
                 Entity newTable = new Entity(tableName, ir);
                 ir.addChild(newTable);
-
+                System.out.println(tableName);
                 //Koje atribute imaja ova tabela?
 
                 ResultSet columns = metaData.getColumns(connection.getCatalog(), null, tableName, null);

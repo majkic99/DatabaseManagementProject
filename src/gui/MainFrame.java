@@ -76,6 +76,9 @@ public class MainFrame extends JFrame implements Subscriber {
         jTable.setFillsViewportHeight(true);
 
         verticalSplit.setTopComponent(new JScrollPane(jTable));
+        JLabel placeholder = new JLabel();
+        verticalSplit.setBottomComponent(placeholder);
+        verticalSplit.setResizeWeight(0.35);
 
 
     }
