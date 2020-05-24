@@ -4,6 +4,10 @@ package resource.implementation;
 import resource.DBNode;
 import resource.DBNodeComposite;
 import resource.enums.AttributeType;
+import resource.enums.ConstraintType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Attribute extends DBNodeComposite {
@@ -11,7 +15,7 @@ public class Attribute extends DBNodeComposite {
 
     private AttributeType attributeType;
     private int length;
-    private Attribute inRelationWith;
+    private List<Attribute> listaRelacija;
 
     public Attribute(String name, DBNode parent) {
         super(name, parent);
@@ -21,6 +25,7 @@ public class Attribute extends DBNodeComposite {
         super(name, parent);
         this.attributeType = attributeType;
         this.length = length;
+        listaRelacija = new ArrayList<Attribute>();
     }
 
     @Override
@@ -29,5 +34,33 @@ public class Attribute extends DBNodeComposite {
             AttributeConstraint attributeConstraint = (AttributeConstraint) child;
             this.getChildren().add(attributeConstraint);
         }
+    }
+
+    public List<Attribute> getListaRelacija() {
+        return listaRelacija;
+    }
+
+    public void setListaRelacija(List<Attribute> listaRelacija) {
+        this.listaRelacija = listaRelacija;
+    }
+
+    public boolean isAttributeForeignKey(){
+        for (DBNode dbNode : this.getChildren()){
+            if (((AttributeConstraint)dbNode).getConstraintType().equals(ConstraintType.FOREIGN_KEY)){
+                return true;
+
+            }
+        }
+        return false;
+    }
+
+    public boolean isAttributePrimaryKey(){
+        for (DBNode dbNode : this.getChildren()){
+            if (((AttributeConstraint)dbNode).getConstraintType().equals(ConstraintType.PRIMARY_KEY)){
+                return true;
+
+            }
+        }
+        return false;
     }
 }

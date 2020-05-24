@@ -79,6 +79,14 @@ public class MSSQLrepository implements Repository{
                     Attribute attribute = new Attribute(columnName, newTable, AttributeType.valueOf(columnType.toUpperCase()), columnSize);
                     newTable.addChild(attribute);
 
+                    try {
+                        AttributeType test = AttributeType.valueOf(columnType.toUpperCase());
+                    }catch (IllegalArgumentException e){
+                        System.out.println(columnType);
+                        AttributeConstraint domainValue = new AttributeConstraint(columnType,attribute,ConstraintType.DOMAIN_VALUE);
+                        attribute.addChild(domainValue);
+                    }
+
                     String defValue = columns.getString("COLUMN_DEF");
                     if (defValue != null){
                         AttributeConstraint defValCons = new AttributeConstraint(defValue, attribute, ConstraintType.DEFAULT_VALUE);
@@ -111,7 +119,24 @@ public class MSSQLrepository implements Repository{
 
 
             }
+            /*
+            for (DBNode tabela : ir.getChildren()){
+                for (DBNode atribut : ((Entity)tabela).getChildren()){
+                    if (((Attribute)atribut).isAttributePrimaryKey()){
+                        for (DBNode tabelaTest : ir.getChildren()) {
+                            if (tabelaTest != tabela){
+                            for (DBNode atributTest : ((Entity) tabelaTest).getChildren()) {
 
+
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+*/
 
             //TODO Ogranicenja nad kolonama? Relacije?
 
