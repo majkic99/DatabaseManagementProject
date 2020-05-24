@@ -60,6 +60,12 @@ public class AppCore extends PublisherImplementation {
         //this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED, this.getTableModel()));
     }
 
+    public TableModel getTableModelFromTable(String fromTable){
+        TableModel tableMod = new TableModel();
+        tableMod.setRows(this.database.readDataFromTable(fromTable));
+        return tableMod;
+
+    }
 
     public TableModel getTableModel() {
         return tableModel;

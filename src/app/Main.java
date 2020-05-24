@@ -20,7 +20,7 @@ public class Main {
         mainFrame.setAppCore(appCore);
         mainFrame.maximize();    // My preferable choice
 
-        TableModel tm = new TableModel();
+        //TableModel tm = new TableModel();
 
 
         //appCore.readDataFromTable("EMPLOYEES");
