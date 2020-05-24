@@ -7,8 +7,12 @@ import resource.DBNodeComposite;
 
 public class Entity extends DBNodeComposite {
 
+    private static int count = 0;
+    private int ID;
+
     public Entity(String name, DBNode parent) {
         super(name, parent);
+        this.ID = count++;
     }
 
     @Override
@@ -18,5 +22,9 @@ public class Entity extends DBNodeComposite {
             this.getChildren().add(attribute);
         }
 
+    }
+
+    public int getID() {
+        return ID;
     }
 }

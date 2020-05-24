@@ -20,7 +20,7 @@ public class TableView extends JPanel {
         toolbar.add(new JLabel("Ali gde je tabela dole????????"));
         table = new JTable();
         this.setLayout(new BorderLayout());
-        scrollPane.add(table);
+        scrollPane.setViewportView(table);
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(toolbar, BorderLayout.NORTH);
         this.ID = ID;
