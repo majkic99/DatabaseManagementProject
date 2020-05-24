@@ -1,5 +1,6 @@
 package gui;
 
+import actions.ActionManager;
 import app.AppCore;
 
 import drvo.TreeCellRenderer;
@@ -11,6 +12,8 @@ import observer.Subscriber;
 import observer.enums.NotificationCode;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -33,6 +36,8 @@ public class MainFrame extends JFrame implements Subscriber {
 
     private ArrayList<Integer> used;
 
+    private ActionManager actionManager;
+
 
     private MainFrame() {
         this.setLayout(new BorderLayout());
@@ -43,6 +48,8 @@ public class MainFrame extends JFrame implements Subscriber {
         topTab = new JTabbedPane();
         botTab = new JTabbedPane();
         used = new ArrayList<>();
+        topTab.addChangeListener(changeListener);
+        actionManager = new ActionManager();
 
     }
 
@@ -127,6 +134,16 @@ public class MainFrame extends JFrame implements Subscriber {
 
     }
 
+    // Slusac za tabove
+    ChangeListener changeListener = new ChangeListener() {
+        public void stateChanged(ChangeEvent changeEvent) {
+            JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+            int index = sourceTabbedPane.getSelectedIndex();
+            System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
+            MainFrame.getInstance().getAppCore().readDataFromTable(sourceTabbedPane.getTitleAt(index));
+        }
+    };
+
     public void maximize() {
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
@@ -190,5 +207,9 @@ public class MainFrame extends JFrame implements Subscriber {
             }
         }
         return null;
+    }
+
+    public ActionManager getActionManager() {
+        return actionManager;
     }
 }

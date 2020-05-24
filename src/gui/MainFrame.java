@@ -1,5 +1,6 @@
 package gui;
 
+import actions.ActionManager;
 import app.AppCore;
 
 import drvo.TreeCellRenderer;
@@ -35,6 +36,8 @@ public class MainFrame extends JFrame implements Subscriber {
 
     private ArrayList<Integer> used;
 
+    private ActionManager actionManager;
+
 
     private MainFrame() {
         this.setLayout(new BorderLayout());
@@ -46,6 +49,7 @@ public class MainFrame extends JFrame implements Subscriber {
         botTab = new JTabbedPane();
         used = new ArrayList<>();
         topTab.addChangeListener(changeListener);
+        actionManager = new ActionManager();
 
     }
 
@@ -203,5 +207,9 @@ public class MainFrame extends JFrame implements Subscriber {
             }
         }
         return null;
+    }
+
+    public ActionManager getActionManager() {
+        return actionManager;
     }
 }
