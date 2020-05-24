@@ -2,7 +2,6 @@ package drvo;
 
 import gui.MainFrame;
 import gui.table.TableView;
-import javafx.scene.control.Tab;
 import resource.implementation.Attribute;
 import resource.implementation.AttributeConstraint;
 import resource.implementation.Entity;
@@ -11,7 +10,6 @@ import resource.implementation.InformationResource;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
-import java.awt.*;
 
 
 public class TreeController implements TreeSelectionListener {
@@ -52,7 +50,7 @@ public class TreeController implements TreeSelectionListener {
                     tv.getTable().setModel(MainFrame.getInstance().getAppCore().getTableModel());
                     MainFrame.getInstance().getTopTab().add(tv);
                     MainFrame.getInstance().setCurrentTV(tv);
-                }
+                   }
 
 
                 break;
