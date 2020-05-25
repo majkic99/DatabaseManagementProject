@@ -7,22 +7,19 @@ import database.settings.Settings;
 import database.settings.SettingsImplementation;
 import gui.table.TableModel;
 import observer.Notification;
-import observer.Publisher;
-import observer.Subscriber;
 import observer.enums.NotificationCode;
 import observer.implementation.PublisherImplementation;
 import resource.implementation.InformationResource;
 import utils.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AppCore extends PublisherImplementation {
 
     private Database database;
     private Settings settings;
-    private TableModel tableModel;
+    private TableModel mainTableModel;
+    private TableModel relationTableModel;
     private InformationResource irRoot;
+
 
     public InformationResource getIrRoot() {
         return irRoot;
@@ -34,7 +31,8 @@ public class AppCore extends PublisherImplementation {
     public AppCore() {
         this.settings = initSettings();
         this.database = new DatabaseImplementation(new MSSQLrepository(this.settings));
-        tableModel = new TableModel();
+        mainTableModel = new TableModel();
+        relationTableModel = new TableModel();
     }
 
     private Settings initSettings() {
@@ -54,10 +52,14 @@ public class AppCore extends PublisherImplementation {
 
     public void readDataFromTable(String fromTable){
 
-        tableModel.setRows(this.database.readDataFromTable(fromTable));
+        mainTableModel.setRows(this.database.readDataFromTable(fromTable));
 
         //Zasto ova linija moze da ostane zakomentarisana?
         //this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED, this.getTableModel()));
+    }
+
+    public void readDataFromTableRelation(String fromTableRelation) {
+        relationTableModel.setRows(this.database.readDataFromTable(fromTableRelation));
     }
 
     public TableModel getTableModelFromTable(String fromTable){
@@ -67,13 +69,19 @@ public class AppCore extends PublisherImplementation {
 
     }
 
-    public TableModel getTableModel() {
-        return tableModel;
+    public TableModel getMainTableModel() {
+        return mainTableModel;
     }
 
-    public void setTableModel(TableModel tableModel) {
-        this.tableModel = tableModel;
+    public void setMainTableModel(TableModel mainTableModel) {
+        this.mainTableModel = mainTableModel;
     }
 
+    public TableModel getRelationTableModel() {
+        return relationTableModel;
+    }
 
+    public void setRelationTableModel(TableModel relationTableModel) {
+        this.relationTableModel = relationTableModel;
+    }
 }

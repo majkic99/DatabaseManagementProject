@@ -1,6 +1,8 @@
 package drvo;
 
 import gui.MainFrame;
+import gui.table.RelationTableView;
+import gui.table.TableModel;
 import gui.table.TableView;
 import resource.implementation.Attribute;
 import resource.implementation.AttributeConstraint;
@@ -48,10 +50,23 @@ public class TreeController implements TreeSelectionListener {
                     MainFrame.getInstance().addUsed(entity.getID());
                     TableView tv = new TableView(entity.getID());
                     tv.setName(entity.getName());
-                    tv.getTable().setModel(MainFrame.getInstance().getAppCore().getTableModel());
+                    tv.getTable().setModel(MainFrame.getInstance().getAppCore().getMainTableModel());
                     MainFrame.getInstance().getTopTab().add(tv);
                     MainFrame.getInstance().setCurrentTV(tv);
                    }
+
+                MainFrame.getInstance().getBotTab().removeAll();
+                for(int j = 0; j < entity.getRelacije().size(); j++){
+                    RelationTableView relationTableView = new RelationTableView();
+                    relationTableView.getTable()
+                            .setModel(MainFrame.getInstance().getAppCore().getRelationTableModel());
+
+                    relationTableView.setName(entity.getRelacije().get(j));
+                    MainFrame.getInstance().getBotTab().add(relationTableView);
+                }
+
+                if(!entity.getRelacije().isEmpty())
+                    MainFrame.getInstance().getAppCore().readDataFromTableRelation(entity.getRelacije().get(0));
 
 
                 break;
@@ -61,7 +76,7 @@ public class TreeController implements TreeSelectionListener {
         if (node instanceof InformationResource) {
 
             InformationResource ir = (InformationResource) node;
-            System.out.println("Trenutni node: " + ir + "(Information Resource)");
+//            System.out.println("Trenutni node: " + ir + "(Information Resource)");
 
         } else if(node instanceof Entity) {
 

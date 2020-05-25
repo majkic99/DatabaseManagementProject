@@ -15,13 +15,7 @@ public class Entity extends DBNodeComposite {
     private List<String> relacije;
     private List<Entity> relacijeEntiteta;
 
-    public List<String> getRelacije() {
-        return relacije;
-    }
 
-    public void setRelacije(List<String> relacije) {
-        this.relacije = relacije;
-    }
 
 
 
@@ -53,7 +47,18 @@ public class Entity extends DBNodeComposite {
 
         }
     }
+
+
+
     public int getID() {
         return ID;
+    }
+
+    public List<String> getRelacije() {
+        return relacije;
+    }
+
+    public void setRelacije(List<String> relacije) {
+        this.relacije = relacije;
     }
 }

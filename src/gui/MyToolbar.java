@@ -5,9 +5,9 @@ import app.Main;
 import javax.swing.*;
 import java.awt.*;
 
-public class Toolbar extends JToolBar {
+public class MyToolbar extends JToolBar {
 
-    public Toolbar() {
+    public MyToolbar() {
 
         addSeparator();
         add(MainFrame.getInstance().getActionManager().getOpenBasicTableAction());

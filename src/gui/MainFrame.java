@@ -6,10 +6,13 @@ import app.AppCore;
 import drvo.TreeCellRenderer;
 import drvo.TreeModel;
 import drvo.TreeController;
+import gui.table.RelationTableView;
 import gui.table.TableView;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
+import resource.DBNode;
+import resource.implementation.Entity;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -48,8 +51,11 @@ public class MainFrame extends JFrame implements Subscriber {
         topTab = new JTabbedPane();
         botTab = new JTabbedPane();
         used = new ArrayList<>();
-        topTab.addChangeListener(changeListener);
+        topTab.addChangeListener(topChangeListener);
+        botTab.addChangeListener(botChangeListener);
         actionManager = new ActionManager();
+//        botTab.add(new JPanel());
+//        topTab.add(new JPanel());
 
     }
 
@@ -82,24 +88,23 @@ public class MainFrame extends JFrame implements Subscriber {
         this.appCore = appCore;
         this.appCore.addSubscriber(this);
         setTree();
-        setTabs();
+        verticalSplit.setResizeWeight(0.5);
         center();
 
     }
 
-    private void setTabs() {
-
+//    private void setTabs() {
+//
 //        jTable.setPreferredScrollableViewportSize(new Dimension(500, 400));
 //        jTable.setFillsViewportHeight(true);
 //        verticalSplit.setTopComponent(new JScrollPane(jTable));
-        JLabel placeholder = new JLabel();
-        verticalSplit.setBottomComponent(placeholder);
+//        JLabel placeholder = new JLabel();
+//        verticalSplit.setBottomComponent(placeholder);
 //        verticalSplit.setBottomComponent(bottomTabbedPane);
-        verticalSplit.setResizeWeight(0.35);
 //
-
-
-    }
+//
+//
+//    }
 
     private void setTree(){
         drvo = new JTree(new TreeModel(appCore.getIrRoot()));
@@ -134,16 +139,56 @@ public class MainFrame extends JFrame implements Subscriber {
 
     }
 
-    // Slusac za tabove
-    ChangeListener changeListener = new ChangeListener() {
+    // Slusac za tabove (topTab)
+    ChangeListener topChangeListener = new ChangeListener() {
         public void stateChanged(ChangeEvent changeEvent) {
             JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
             int index = sourceTabbedPane.getSelectedIndex();
             System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
-            MainFrame.getInstance().getAppCore().readDataFromTable(sourceTabbedPane.getTitleAt(index));
-            //TODO menjanje liste entiteta u appcore
+            getAppCore().readDataFromTable(sourceTabbedPane.getTitleAt(index));
+
+
+            getBotTab().removeAll();
+            ArrayList<DBNode> entities = (ArrayList<DBNode>) getAppCore().getIrRoot().getChildren();
+            Entity entity = null;
+            for(DBNode e : entities) {
+                if(e.getName().equals(sourceTabbedPane.getTitleAt(index))) {
+                    entity = (Entity) e;
+                    break;
+                }
+
+            }
+
+            for(int j = 0; j < entity.getRelacije().size(); j++){
+                RelationTableView relationTableView = new RelationTableView();
+                relationTableView.getTable()
+                        .setModel(MainFrame.getInstance().getAppCore().getRelationTableModel());
+
+                relationTableView.setName(entity.getRelacije().get(j));
+                getBotTab().add(relationTableView);
+            }
+
+            if(!entity.getRelacije().isEmpty())
+                getAppCore().readDataFromTableRelation(entity.getRelacije().get(0));
+
+
         }
     };
+
+    // Slusac za tabove (botTab)
+    ChangeListener botChangeListener = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent changeEvent) {
+            JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+            int index = sourceTabbedPane.getSelectedIndex();
+//            System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
+            try{
+                getAppCore().readDataFromTableRelation(sourceTabbedPane.getTitleAt(index));
+            } catch(IndexOutOfBoundsException e) {
+            }
+        }
+    };
+
 
     public void maximize() {
         setExtendedState(Frame.MAXIMIZED_BOTH);
