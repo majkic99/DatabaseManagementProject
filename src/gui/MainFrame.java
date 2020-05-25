@@ -141,6 +141,7 @@ public class MainFrame extends JFrame implements Subscriber {
             int index = sourceTabbedPane.getSelectedIndex();
             System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             MainFrame.getInstance().getAppCore().readDataFromTable(sourceTabbedPane.getTitleAt(index));
+            //TODO menjanje liste entiteta u appcore
         }
     };
 

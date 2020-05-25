@@ -39,6 +39,7 @@ public class TreeController implements TreeSelectionListener {
                 if(MainFrame.getInstance().getUsed().contains(entity.getID())) {
                     has = true;
                     MainFrame.getInstance().setCurrentTV(MainFrame.getInstance().getTVByID(entity.getID()));
+                    //TODO change appcore entity list
                 }
 
 

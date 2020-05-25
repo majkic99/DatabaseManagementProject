@@ -108,35 +108,25 @@ public class MSSQLrepository implements Repository{
                     }
                     ResultSet foreignKeys = metaData.getImportedKeys(connection.getCatalog(), null, newTable.getName());
                     while(foreignKeys.next()){
+
+
                         if (columnName.equals(foreignKeys.getString("FKCOLUMN_NAME"))) {
+                            newTable.getRelacije().add(foreignKeys.getString("PKTABLE_NAME"));
+                            //System.out.println("test" + foreignKeys.getString("PKTABLE_NAME"));
+
                             AttributeConstraint fkConstraint = new AttributeConstraint("Foreign Key", attribute, ConstraintType.FOREIGN_KEY);
                             attribute.addChild(fkConstraint);
                         }
+
                     }
 
 
                 }
 
 
+
             }
-            /*
-            for (DBNode tabela : ir.getChildren()){
-                for (DBNode atribut : ((Entity)tabela).getChildren()){
-                    if (((Attribute)atribut).isAttributePrimaryKey()){
-                        for (DBNode tabelaTest : ir.getChildren()) {
-                            if (tabelaTest != tabela){
-                            for (DBNode atributTest : ((Entity) tabelaTest).getChildren()) {
 
-
-
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-*/
 
             //TODO Ogranicenja nad kolonama? Relacije?
 

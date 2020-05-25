@@ -24,6 +24,7 @@ public class AppCore extends PublisherImplementation {
     private TableModel tableModel;
     private InformationResource irRoot;
 
+
     public InformationResource getIrRoot() {
         return irRoot;
     }
