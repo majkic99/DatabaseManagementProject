@@ -144,7 +144,7 @@ public class FilterAndSortAction extends AbsDMAction {
 
     }
 
-    private class Constraints {
+    static class Constraints {
 
         int x;
         int y;
