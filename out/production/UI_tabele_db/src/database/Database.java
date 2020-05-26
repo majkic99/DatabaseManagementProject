@@ -12,4 +12,5 @@ public interface Database{
     List<Row> readDataFromTable(String tableName);
 
 
+    List<Row> filterAndSort(String firstPart, String secondPart, String name);
 }

@@ -154,6 +154,7 @@ public class MainFrame extends JFrame implements Subscriber {
             for(DBNode e : entities) {
                 if(e.getName().equals(sourceTabbedPane.getTitleAt(index))) {
                     entity = (Entity) e;
+                    getAppCore().setCurrentEntity(entity);
                     break;
                 }
 

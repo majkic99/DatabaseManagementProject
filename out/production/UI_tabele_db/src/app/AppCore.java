@@ -9,6 +9,7 @@ import gui.table.TableModel;
 import observer.Notification;
 import observer.enums.NotificationCode;
 import observer.implementation.PublisherImplementation;
+import resource.implementation.Entity;
 import resource.implementation.InformationResource;
 import utils.Constants;
 
@@ -19,6 +20,7 @@ public class AppCore extends PublisherImplementation {
     private TableModel mainTableModel;
     private TableModel relationTableModel;
     private InformationResource irRoot;
+    private Entity currentEntity;
 
 
     public InformationResource getIrRoot() {
@@ -69,6 +71,10 @@ public class AppCore extends PublisherImplementation {
 
     }
 
+    public void filterAndSort(String firstPart, String secondPart){
+        mainTableModel.setRows(this.database.filterAndSort(firstPart, secondPart, this.currentEntity.getName()));
+    }
+
     public TableModel getMainTableModel() {
         return mainTableModel;
     }
@@ -83,5 +89,13 @@ public class AppCore extends PublisherImplementation {
 
     public void setRelationTableModel(TableModel relationTableModel) {
         this.relationTableModel = relationTableModel;
+    }
+
+    public Entity getCurrentEntity() {
+        return currentEntity;
+    }
+
+    public void setCurrentEntity(Entity currentEntity) {
+        this.currentEntity = currentEntity;
     }
 }
