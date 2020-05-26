@@ -31,6 +31,11 @@ public class DatabaseImplementation implements Database {
         return repository.filterAndSort(firstPart, secondPart, name);
     }
 
+    @Override
+    public void insert(String values, String name) {
+        repository.insert(values, name);
+    }
+
     public Repository getRepository() {
         return repository;
     }

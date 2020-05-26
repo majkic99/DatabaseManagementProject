@@ -13,6 +13,14 @@ import java.util.List;
 public class Attribute extends DBNodeComposite {
 
 
+    public AttributeType getAttributeType() {
+        return attributeType;
+    }
+
+    public void setAttributeType(AttributeType attributeType) {
+        this.attributeType = attributeType;
+    }
+
     private AttributeType attributeType;
     private int length;
     private List<Attribute> listaRelacija;
@@ -62,5 +70,13 @@ public class Attribute extends DBNodeComposite {
             }
         }
         return false;
+    }
+    public boolean isNullable(){
+        for (DBNode dbNode : this.getChildren()){
+            if (((AttributeConstraint)dbNode).getConstraintType().equals(ConstraintType.NOT_NULL)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

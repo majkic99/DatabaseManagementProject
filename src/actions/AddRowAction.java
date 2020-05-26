@@ -4,6 +4,7 @@ import com.sun.xml.internal.ws.wsdl.parser.MemberSubmissionAddressingWSDLParserE
 import gui.MainFrame;
 import jdk.nashorn.internal.scripts.JO;
 import resource.DBNode;
+import resource.implementation.Attribute;
 import resource.implementation.Entity;
 
 import javax.swing.*;
@@ -55,6 +56,47 @@ public class AddRowAction extends AbsDMAction {
 
 
         }
-        JOptionPane.showConfirmDialog(null, panel, "Add row", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(JOptionPane.showConfirmDialog(null, panel, "Insert into table" + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(), JOptionPane.OK_OPTION) == JOptionPane.OK_OPTION) {
+            String values = "";
+            int txtCnt = 0;
+            int allGood = 1;
+            for(int i = 0; i < panel.getComponentCount(); i++) {
+                if(panel.getComponent(i) instanceof JTextField) {
+                    txtCnt++;
+                    if (!(((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).isNullable())){
+                        if (((JTextField) panel.getComponent(i)).getText().equals("")) {
+                            JOptionPane.showMessageDialog(null, "Nesto je NULL sto ne sme biti");
+                            allGood = 0;
+
+                        }
+
+                    }
+
+                    if (((JTextField) panel.getComponent(i)).getText().equals("")){
+                        values += "NULL";
+                        if(txtCnt < attributeNames.size()) values += ", ";
+                        continue;
+                    }
+
+
+                    if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("VARCHAR")) {
+                        values += "'" + ((JTextField) panel.getComponent(i)).getText() + "'";
+                    }else{
+                        values += ((JTextField) panel.getComponent(i)).getText();
+                    }
+                    if(txtCnt < attributeNames.size()) values += ", ";
+                }
+            }
+
+            if (allGood == 1) {
+                //System.out.println(values);
+                MainFrame.getInstance().getAppCore().insert(values);
+            }
+
+
+
+
+        }
+
     }
 }

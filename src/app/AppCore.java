@@ -98,4 +98,10 @@ public class AppCore extends PublisherImplementation {
     public void setCurrentEntity(Entity currentEntity) {
         this.currentEntity = currentEntity;
     }
+
+    public void insert(String values) {
+        this.database.insert(values, this.currentEntity.getName());
+        mainTableModel.setRows(this.database.readDataFromTable(this.currentEntity.getName()));
+
+    }
 }
