@@ -195,6 +195,7 @@ public class MSSQLrepository implements Repository{
             if (!(secondPart.equals(""))){
                 query+= " ORDER BY " + secondPart;
             }
+
             System.out.println(query);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
@@ -220,6 +221,27 @@ public class MSSQLrepository implements Repository{
         }
 
         return rows;
+    }
+
+    @Override
+    public void insert(String values, String name) {
+        try{
+            this.initConnection();
+
+            String query = "insert into " + name  + " values " + "(" + values + ")";
+            System.out.println(query);
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            this.closeConnection();
+        }
     }
 
     public Settings getSettings() {

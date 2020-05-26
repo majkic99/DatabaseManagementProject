@@ -195,6 +195,7 @@ public class MSSQLrepository implements Repository{
             if (!(secondPart.equals(""))){
                 query+= " ORDER BY " + secondPart;
             }
+
             System.out.println(query);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();

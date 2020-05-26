@@ -88,10 +88,14 @@ public class FilterAndSortAction extends AbsDMAction {
 
             for(int i = 0; i < panel.getComponentCount(); i++) {
                 if(panel.getComponent(i) instanceof JCheckBox) {
-                    cboxCount++;
+
                     if (((JCheckBox) panel.getComponent(i)).isSelected()) {
-                        checkedCols += panel.getComponent(i).getName();
-                        if(cboxCount < attributeNames.size()) checkedCols += ", ";
+                        cboxCount++;
+                        if (cboxCount != 1){
+                            checkedCols += "," + panel.getComponent(i).getName();
+                        }else{
+                            checkedCols += panel.getComponent(i).getName();
+                        }
                     }
                 }
                 else if(panel.getComponent(i) instanceof JComboBox && panel.getComponent(i).getName().equals("order")) {
