@@ -10,4 +10,6 @@ public interface Repository {
     DBNode getSchema();
 
     List<Row> get(String from);
+
+    List<Row> filterAndSort(String firstPart, String secondPart, String name);
 }

@@ -182,6 +182,46 @@ public class MSSQLrepository implements Repository{
         return rows;
     }
 
+    @Override
+    public List<Row> filterAndSort(String firstPart, String secondPart, String name) {
+
+        List<Row> rows = new ArrayList<>();
+
+
+        try{
+            this.initConnection();
+
+            String query = "SELECT " + firstPart + " FROM " + name;
+            if (!(secondPart.equals(""))){
+                query+= " ORDER BY " + secondPart;
+            }
+            System.out.println(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+
+                Row row = new Row();
+                row.setName(name);
+
+                ResultSetMetaData resultSetMetaData = rs.getMetaData();
+                for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+                    row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+                }
+                rows.add(row);
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            this.closeConnection();
+        }
+
+        return rows;
+    }
+
     public Settings getSettings() {
         return settings;
     }

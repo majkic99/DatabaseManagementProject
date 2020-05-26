@@ -8,7 +8,8 @@ import resource.implementation.Entity;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 public class FilterAndSortAction extends AbsDMAction {
 
@@ -83,13 +84,14 @@ public class FilterAndSortAction extends AbsDMAction {
             int orderCount = 0;
             int priorityCount = 0;
             ArrayList<String> columnOrders = new ArrayList<>();
+            ArrayList<Integer> priority = new ArrayList<>();
 
             for(int i = 0; i < panel.getComponentCount(); i++) {
                 if(panel.getComponent(i) instanceof JCheckBox) {
                     cboxCount++;
                     if (((JCheckBox) panel.getComponent(i)).isSelected()) {
                         checkedCols += panel.getComponent(i).getName();
-                        if(cboxCount + 1 < attributeNames.size()) checkedCols += ", ";
+                        if(cboxCount < attributeNames.size()) checkedCols += ", ";
                     }
                 }
                 else if(panel.getComponent(i) instanceof JComboBox && panel.getComponent(i).getName().equals("order")) {
@@ -97,15 +99,47 @@ public class FilterAndSortAction extends AbsDMAction {
                     if(!(((JComboBox) panel.getComponent(i)).getSelectedItem().equals("None"))) {
                         String s = attributeNames.get(orderCount-1) + " " + ((JComboBox) panel.getComponent(i)).getSelectedItem();
                         columnOrders.add(s);
-                        System.out.println(s);
+
+                        Integer broj = (Integer) ((JComboBox)panel.getComponent(i+1)).getSelectedItem();
+                        System.out.println(broj.toString());
+                        priority.add(broj);
+
                     }
                 }
-                else if(panel.getComponent(i) instanceof JComboBox && panel.getComponent(i).getName().equals("priority")) {
-                    priorityCount++;
+            }
+            List<Priority> lista = new ArrayList<Priority>();
+            for (int i = 0; i < priority.size(); i++){
+                lista.add(new Priority(columnOrders.get(i), priority.get(i)));
 
-                }
+            }
+            Collections.sort(lista);
+            String orderBy = "";
+
+            for (int k = 0; k < lista.size(); k++){
+                orderBy += lista.get(k).name;
+                if (k + 1 < lista.size()) orderBy+= ", ";
             }
 
+            MainFrame.getInstance().getAppCore().filterAndSort(checkedCols, orderBy);
+        }
+
+    }
+    private class Priority implements Comparable<Priority> {
+        String name;
+        Integer num;
+
+        Priority(String name, int num) {
+            this.name = name;
+            this.num = num;
+        }
+
+        @Override
+        public int compareTo(Priority o) {
+            if (this.num > o.num)
+                return 1;
+            else if (this.num < o.num)
+                return -1;
+            return 0;
         }
 
     }

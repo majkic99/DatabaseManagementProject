@@ -71,6 +71,10 @@ public class AppCore extends PublisherImplementation {
 
     }
 
+    public void filterAndSort(String firstPart, String secondPart){
+        mainTableModel.setRows(this.database.filterAndSort(firstPart, secondPart, this.currentEntity.getName()));
+    }
+
     public TableModel getMainTableModel() {
         return mainTableModel;
     }
