@@ -96,8 +96,18 @@ public class AddRowAction extends AbsDMAction {
 
 
 
-                    if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("VARCHAR")) {
-                        values += "'" + ((JTextField) panel.getComponent(i)).getText() + "'";
+                    if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("VARCHAR") ||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("TEXT")||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("NVARCHAR")||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("CHAR")) {
+                        int length = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getLength();
+                        String s = ((JTextField) panel.getComponent(i)).getText();
+                        if (length > s.length()){
+                            allGood = 0;
+                            JOptionPane.showMessageDialog(null, (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName() + " - Upisali ste previse karaktera"));
+                            allGood = 0;
+                        }
+                        values += "'" + s + "'";
                     }else{
                         values += ((JTextField) panel.getComponent(i)).getText();
                     }
