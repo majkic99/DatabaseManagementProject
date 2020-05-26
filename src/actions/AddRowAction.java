@@ -65,18 +65,35 @@ public class AddRowAction extends AbsDMAction {
                     txtCnt++;
                     if (!(((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).isNullable())){
                         if (((JTextField) panel.getComponent(i)).getText().equals("")) {
-                            JOptionPane.showMessageDialog(null, "Nesto je NULL sto ne sme biti");
+                            JOptionPane.showMessageDialog(null, (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName() +  " je NULL sto ne sme biti"));
                             allGood = 0;
 
                         }
 
                     }
-
                     if (((JTextField) panel.getComponent(i)).getText().equals("")){
                         values += "NULL";
                         if(txtCnt < attributeNames.size()) values += ", ";
                         continue;
                     }
+
+                    if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("DECIMAL") ||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("FLOAT") ||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("BIGINT") ||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("INT") ||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("NUMERIC") ||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("INT") ||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("SMALLINT")){
+                        try {
+                            Float.parseFloat(((JTextField) panel.getComponent(i)).getText());
+                        }
+                        catch(Exception er) {
+                            JOptionPane.showMessageDialog(null, (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName() + " - Ovo je broj upisali ste string"));
+                            allGood = 0;
+                        }
+                    }
+
+
 
 
                     if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("VARCHAR")) {
