@@ -5,7 +5,7 @@ public class ActionManager {
     private OpenBasicTableAction openBasicTableAction;
     private AddRowAction addRowAction;
     private RemoveRowAction removeRowAction;
-    private RefreshAction refreshAction;
+    private EditAction editAction;
     private FilterAndSortAction filterAndSortAction;
     private RelationsAction relationsAction;
     private ReportAction reportAction;
@@ -15,7 +15,7 @@ public class ActionManager {
         openBasicTableAction = new OpenBasicTableAction();
         addRowAction = new AddRowAction();
         removeRowAction = new RemoveRowAction();
-        refreshAction = new RefreshAction();
+        editAction = new EditAction();
         filterAndSortAction = new FilterAndSortAction();
         relationsAction = new RelationsAction();
         reportAction = new ReportAction();
@@ -38,12 +38,12 @@ public class ActionManager {
         this.removeRowAction = removeRowAction;
     }
 
-    public RefreshAction getRefreshAction() {
-        return refreshAction;
+    public EditAction getEditAction() {
+        return editAction;
     }
 
-    public void setRefreshAction(RefreshAction refreshAction) {
-        this.refreshAction = refreshAction;
+    public void setEditAction(EditAction editAction) {
+        this.editAction = editAction;
     }
 
     public FilterAndSortAction getFilterAndSortAction() {

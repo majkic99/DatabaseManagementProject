@@ -237,6 +237,8 @@ public class MSSQLrepository implements Repository{
 
         }
         catch (Exception e) {
+
+            // TODO Ako ubacis FK koji ne postoji
             e.printStackTrace();
         }
         finally {

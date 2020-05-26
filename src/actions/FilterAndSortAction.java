@@ -4,6 +4,7 @@ import gui.MainFrame;
 import resource.DBNode;
 import resource.implementation.Attribute;
 import resource.implementation.Entity;
+import utils.Constraints;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,12 +21,11 @@ public class FilterAndSortAction extends AbsDMAction {
         putValue(SHORT_DESCRIPTION, "Filter and sort");
     }
 
-    // TODO
     @Override
     public void actionPerformed(ActionEvent e) {
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0,4));
+        panel.setLayout(new GridLayout(0,4, 10 ,10));
 
         Entity entity = MainFrame.getInstance().getAppCore().getCurrentEntity();
 
@@ -77,7 +77,7 @@ public class FilterAndSortAction extends AbsDMAction {
             panel.add(cmb2, c);
 
         }
-        if(JOptionPane.showConfirmDialog(null, panel, "Filter&Sort", JOptionPane.OK_OPTION) == JOptionPane.OK_OPTION) {
+        if(JOptionPane.showConfirmDialog(null, panel, "Filter&Sort", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             String upit = "";
             String checkedCols = "";
             int cboxCount = 0;
@@ -148,15 +148,5 @@ public class FilterAndSortAction extends AbsDMAction {
 
     }
 
-    static class Constraints {
-
-        int x;
-        int y;
-
-        Constraints (int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
 }
 

@@ -11,13 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-public class RemoveRowAction extends AbsDMAction {
+public class EditAction extends  AbsDMAction {
 
-    public RemoveRowAction () {
+    public EditAction() {
 //        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 //        putValue(SMALL_ICON, loadIcon(""));
-        putValue(NAME, "Remove");
-        putValue(SHORT_DESCRIPTION, "Remove row");
+        putValue(NAME, "Edit");
+        putValue(SHORT_DESCRIPTION, "Update table");
     }
 
     // TODO
@@ -38,7 +38,7 @@ public class RemoveRowAction extends AbsDMAction {
 
         Constraints c = new Constraints(0,0);
 
-        panel.add(new JLabel("Izabrati primarne kljuceve za brisanje:"), c);
+        panel.add(new JLabel("Izabrati primarni kljuc/kljuceve za izmenu:"), c);
         c.x++;
         panel.add(new JLabel(), c);
 
@@ -55,15 +55,51 @@ public class RemoveRowAction extends AbsDMAction {
             JTextField txt = new JTextField();
             panel.add(txt, c);
 
-
         }
+
+        c.x = 0;
+        c.y = primaryKeys.size() + 1;
+
+        // Prazan red za estetiku
+        panel.add(new JLabel(), c);
+        c.x++;
+        panel.add(new JLabel(), c);
+
+        c.y++;
+        c.x = 0;
+
+        panel.add(new JLabel("Unesite izmene u sledeca polja:"),c);
+        c.x++;
+        panel.add(new JLabel(),c);
+
+        c.y++;
+
+        ArrayList<String> attributeNames = new ArrayList<>();
+        for(DBNode attribute : entity.getChildren()) {
+            attributeNames.add(attribute.getName());
+        }
+
+        int tmp = c.y;
+        for(int i = tmp; i < attributeNames.size() + tmp; i++) {
+            c.x = 0;
+            c.y = i;
+            JLabel label = new JLabel(attributeNames.get(i - tmp) + ":");
+            panel.add(label, c);
+
+            c.x++;
+
+
+            JTextField txt = new JTextField();
+//            txt.setBorder(BorderFactory.createEmptyBorder());
+            panel.add(txt, c);
+        }
+
         if(JOptionPane.showConfirmDialog(null, panel,
-                "Delete from table " + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(),
+                "Edit " + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(),
                 JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 
 
         }
-
 
     }
 }

@@ -22,6 +22,11 @@ public class Attribute extends DBNodeComposite {
     }
 
     private AttributeType attributeType;
+
+    public int getLength() {
+        return length;
+    }
+
     private int length;
     private List<Attribute> listaRelacija;
 

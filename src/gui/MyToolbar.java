@@ -7,14 +7,14 @@ public class MyToolbar extends JToolBar {
 
     public MyToolbar() {
 
-        addSeparator();
-        add(MainFrame.getInstance().getActionManager().getOpenBasicTableAction());
+//        addSeparator();
+//        add(MainFrame.getInstance().getActionManager().getOpenBasicTableAction());
         addSeparator();
         add(MainFrame.getInstance().getActionManager().getAddRowAction());
         addSeparator();
         add(MainFrame.getInstance().getActionManager().getRemoveRowAction());
         addSeparator();
-        add(MainFrame.getInstance().getActionManager().getRefreshAction());
+        add(MainFrame.getInstance().getActionManager().getEditAction());
         addSeparator();
         add(MainFrame.getInstance().getActionManager().getFilterAndSortAction());
         addSeparator();

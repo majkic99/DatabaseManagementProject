@@ -6,6 +6,7 @@ import jdk.nashorn.internal.scripts.JO;
 import resource.DBNode;
 import resource.implementation.Attribute;
 import resource.implementation.Entity;
+import utils.Constraints;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -22,12 +23,11 @@ public class AddRowAction extends AbsDMAction {
         putValue(SHORT_DESCRIPTION, "Add row");
     }
 
-    // TODO
     @Override
     public void actionPerformed(ActionEvent e) {
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0,4));
+        panel.setLayout(new GridLayout(0,4, 10, 10));
 
         Entity entity = MainFrame.getInstance().getAppCore().getCurrentEntity();
 
@@ -38,7 +38,7 @@ public class AddRowAction extends AbsDMAction {
 
         int x,y;
         x = y = 0;
-        FilterAndSortAction.Constraints c = new FilterAndSortAction.Constraints(x,y);
+        Constraints c = new Constraints(x,y);
 
         for(int i = 0; i < attributeNames.size(); i++) {
 
@@ -50,13 +50,14 @@ public class AddRowAction extends AbsDMAction {
 
             c.x++;
 
+
             JTextField txt = new JTextField();
-            txt.setMargin(new Insets(5,5,5,5));
+//            txt.setBorder(BorderFactory.createEmptyBorder());
             panel.add(txt, c);
 
 
         }
-        if(JOptionPane.showConfirmDialog(null, panel, "Insert into table" + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(), JOptionPane.OK_OPTION) == JOptionPane.OK_OPTION) {
+        if(JOptionPane.showConfirmDialog(null, panel, "Insert into table " + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             String values = "";
             int txtCnt = 0;
             int allGood = 1;
@@ -99,11 +100,11 @@ public class AddRowAction extends AbsDMAction {
                     if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("VARCHAR") ||
                             ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("TEXT")||
                             ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("NVARCHAR")||
+                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("DATETIME")||
                             ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("CHAR")) {
                         int length = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getLength();
                         String s = ((JTextField) panel.getComponent(i)).getText();
-                        if (length > s.length()){
-                            allGood = 0;
+                        if (length < s.length()){
                             JOptionPane.showMessageDialog(null, (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName() + " - Upisali ste previse karaktera"));
                             allGood = 0;
                         }
