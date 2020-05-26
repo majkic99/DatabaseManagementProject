@@ -6,7 +6,7 @@ public class ActionManager {
     private AddRowAction addRowAction;
     private RemoveRowAction removeRowAction;
     private RefreshAction refreshAction;
-    private FilterAction filterAction;
+    private FilterAndSortAction filterAndSortAction;
     private RelationsAction relationsAction;
     private ReportAction reportAction;
     private SearchAction searchAction;
@@ -16,7 +16,7 @@ public class ActionManager {
         addRowAction = new AddRowAction();
         removeRowAction = new RemoveRowAction();
         refreshAction = new RefreshAction();
-        filterAction = new FilterAction();
+        filterAndSortAction = new FilterAndSortAction();
         relationsAction = new RelationsAction();
         reportAction = new ReportAction();
         searchAction = new SearchAction();
@@ -46,12 +46,12 @@ public class ActionManager {
         this.refreshAction = refreshAction;
     }
 
-    public FilterAction getFilterAction() {
-        return filterAction;
+    public FilterAndSortAction getFilterAndSortAction() {
+        return filterAndSortAction;
     }
 
-    public void setFilterAction(FilterAction filterAction) {
-        this.filterAction = filterAction;
+    public void setFilterAndSortAction(FilterAndSortAction filterAndSortAction) {
+        this.filterAndSortAction = filterAndSortAction;
     }
 
     public RelationsAction getRelationsAction() {

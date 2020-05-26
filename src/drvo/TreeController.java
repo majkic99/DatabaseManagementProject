@@ -1,5 +1,6 @@
 package drvo;
 
+import app.Main;
 import gui.MainFrame;
 import gui.table.RelationTableView;
 import gui.table.TableModel;
@@ -30,6 +31,8 @@ public class TreeController implements TreeSelectionListener {
         for(int i=0; i<path.getPathCount(); i++){
             if(path.getPathComponent(i) instanceof Entity){
                 Entity entity = (Entity) path.getPathComponent(i);
+
+                MainFrame.getInstance().getAppCore().setCurrentEntity(entity);
 
                 MainFrame.getInstance().getAppCore().readDataFromTable(entity.getName());
 

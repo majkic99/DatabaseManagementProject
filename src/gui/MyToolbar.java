@@ -1,7 +1,5 @@
 package gui;
 
-import app.Main;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,7 +16,7 @@ public class MyToolbar extends JToolBar {
         addSeparator();
         add(MainFrame.getInstance().getActionManager().getRefreshAction());
         addSeparator();
-        add(MainFrame.getInstance().getActionManager().getFilterAction());
+        add(MainFrame.getInstance().getActionManager().getFilterAndSortAction());
         addSeparator();
         add(MainFrame.getInstance().getActionManager().getRelationsAction());
         addSeparator();
