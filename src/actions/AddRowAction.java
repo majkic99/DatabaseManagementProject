@@ -77,14 +77,9 @@ public class AddRowAction extends AbsDMAction {
                         if(txtCnt < attributeNames.size()) values += ", ";
                         continue;
                     }
-
-                    if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("DECIMAL") ||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("FLOAT") ||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("BIGINT") ||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("INT") ||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("NUMERIC") ||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("INT") ||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("SMALLINT")){
+                    String testString = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString();
+                    if (testString.equals("DECIMAL") || testString.equals("FLOAT") || testString.equals("BIGINT") || testString.equals("INT") ||
+                            testString.equals("NUMERIC") || testString.equals("INT") || testString.equals("SMALLINT")){
                         try {
                             Float.parseFloat(((JTextField) panel.getComponent(i)).getText());
                         }
@@ -97,11 +92,7 @@ public class AddRowAction extends AbsDMAction {
 
 
 
-                    if (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("VARCHAR") ||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("TEXT")||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("NVARCHAR")||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("DATETIME")||
-                            ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString().equals("CHAR")) {
+                    if ( testString.equals("VARCHAR") || testString.equals("TEXT")|| testString.equals("NVARCHAR")|| testString.equals("DATETIME")|| testString.equals("CHAR")) {
                         int length = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getLength();
                         String s = ((JTextField) panel.getComponent(i)).getText();
                         if (length < s.length()){
