@@ -1,5 +1,6 @@
 package actions;
 
+import app.Main;
 import gui.MainFrame;
 import resource.DBNode;
 import resource.implementation.Attribute;
@@ -9,6 +10,7 @@ import utils.Constraints;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class RemoveRowAction extends AbsDMAction {
@@ -23,7 +25,7 @@ public class RemoveRowAction extends AbsDMAction {
     // TODO
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        int allGood = 1;
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0,2,10,10));
 
@@ -53,17 +55,54 @@ public class RemoveRowAction extends AbsDMAction {
             c.x++;
 
             JTextField txt = new JTextField();
+            txt.setName("Key");
             panel.add(txt, c);
 
-
         }
+        String rez = "";
+        ArrayList<String> uslovi = new ArrayList<String>();
         if(JOptionPane.showConfirmDialog(null, panel,
                 "Delete from table " + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(),
                 JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            int keyCnt = 0;
+            for(int i = 0; i < panel.getComponentCount(); i++) {
+                if (panel.getComponent(i) instanceof JTextField && panel.getComponent(i).getName().equals("Key")){
 
+                    if (!(((JTextField) panel.getComponent(i)).getText().equals(""))){
 
+                        String s = primaryKeys.get(keyCnt).getName();
+                        String testString = primaryKeys.get(keyCnt).getAttributeType().toString();
+                        if (testString.equals("DECIMAL") || testString.equals("FLOAT") || testString.equals("BIGINT") || testString.equals("INT") ||
+                                testString.equals("NUMERIC") || testString.equals("INT") || testString.equals("SMALLINT")){
+                            try {
+                                Float.parseFloat(((JTextField) panel.getComponent(i)).getText());
+                                s+= " = " + ((JTextField) panel.getComponent(i)).getText();
+                            }
+                            catch(Exception er) {
+                                JOptionPane.showMessageDialog(null, s + " - Ovo je broj upisali ste string");
+                                allGood = 0;
+                            }
+                        }else {
+                            s += " = " + "'"+ ((JTextField) panel.getComponent(i)).getText()+ "'";
+                        }
+                        uslovi.add(s);
+                        //System.out.println(s);
+                    }
+                    keyCnt++;
+
+                }
+            }
         }
-
-
+        String upit = "";
+        for (int k = 0; k < uslovi.size(); k++){
+            if (k != 0){
+             upit += " AND ";
+            }
+            upit += uslovi.get(k);
+        }
+        System.out.println(upit);
+        if (allGood == 1){
+            MainFrame.getInstance().getAppCore().deleteFromTable(upit);
+        }
     }
 }
