@@ -231,8 +231,8 @@ public class MSSQLrepository implements Repository{
             String query = "insert into " + name  + " values " + "(" + values + ")";
             System.out.println(query);
 
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
 
 
         }
@@ -254,8 +254,8 @@ public class MSSQLrepository implements Repository{
             String query = "delete from " + name  + " where " + upit;
             System.out.println(query);
 
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
 
 
         }
@@ -277,8 +277,8 @@ public class MSSQLrepository implements Repository{
             String query = "update " + name  + " set " + values + " where " + upit;
             System.out.println(query);
 
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
 
 
         }
