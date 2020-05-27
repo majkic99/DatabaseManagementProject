@@ -17,4 +17,6 @@ public interface Database{
     void insert(String values, String name);
 
     void delete(String upit, String name);
+
+    void update(String values, String upit, String name);
 }

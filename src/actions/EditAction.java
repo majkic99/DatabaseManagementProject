@@ -53,6 +53,7 @@ public class EditAction extends  AbsDMAction {
             c.x++;
 
             JTextField txt = new JTextField();
+            txt.setName("PKValue");
             panel.add(txt, c);
 
         }
@@ -91,14 +92,108 @@ public class EditAction extends  AbsDMAction {
 
             JTextField txt = new JTextField();
 //            txt.setBorder(BorderFactory.createEmptyBorder());
+            txt.setName("UpdatedValue");
             panel.add(txt, c);
         }
-
+        ArrayList<String> vrednostiKljuceva = new ArrayList<String>();
+        ArrayList<String> izmene = new ArrayList<String>();
+        int allGood = 1;
+        String values = "";
+        int txtCnt = 0;
         if(JOptionPane.showConfirmDialog(null, panel,
                 "Edit " + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(),
                 JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                int keyCnt = 0;
+
+                for(int i = 0; i < panel.getComponentCount(); i++) {
+                    if (panel.getComponent(i) instanceof JTextField) {
+                        if (panel.getComponent(i).getName().equals("PKValue")) {
+
+                            if (!(((JTextField) panel.getComponent(i)).getText().equals(""))){
+
+                                String s = primaryKeys.get(keyCnt).getName();
+                                String testString = primaryKeys.get(keyCnt).getAttributeType().toString();
+                                if (testString.equals("DECIMAL") || testString.equals("FLOAT") || testString.equals("BIGINT") || testString.equals("INT") ||
+                                        testString.equals("NUMERIC") || testString.equals("INT") || testString.equals("SMALLINT")){
+                                    try {
+                                        Float.parseFloat(((JTextField) panel.getComponent(i)).getText());
+                                        s+= " = " + ((JTextField) panel.getComponent(i)).getText();
+                                    }
+                                    catch(Exception er) {
+                                        JOptionPane.showMessageDialog(null, s + " - Ovo je broj upisali ste string");
+                                        allGood = 0;
+                                    }
+                                }else {
+                                    s += " = " + "'"+ ((JTextField) panel.getComponent(i)).getText()+ "'";
+                                }
+                                vrednostiKljuceva.add(s);
+                                //System.out.println(s);
+                            }
+                            keyCnt++;
+                        }
+
+                        if (panel.getComponent(i).getName().equals("UpdatedValue")) {
+
+                            txtCnt++;
+                            if (((JTextField) panel.getComponent(i)).getText().equals("")){
+
+                                continue;
+                            }
+                            String testString = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString();
+                            if (testString.equals("DECIMAL") || testString.equals("FLOAT") || testString.equals("BIGINT") || testString.equals("INT") ||
+                                    testString.equals("NUMERIC") || testString.equals("INT") || testString.equals("SMALLINT")){
+                                try {
+                                    Float.parseFloat(((JTextField) panel.getComponent(i)).getText());
+                                }
+                                catch(Exception er) {
+                                    JOptionPane.showMessageDialog(null, (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName() + " - Ovo je broj upisali ste string"));
+                                    allGood = 0;
+                                }
+                            }
 
 
+
+                            values += ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName();
+                            values += " = ";
+                            if ( testString.equals("VARCHAR") || testString.equals("TEXT")|| testString.equals("NVARCHAR")|| testString.equals("DATETIME")|| testString.equals("CHAR")) {
+                                int length = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getLength();
+                                String s = ((JTextField) panel.getComponent(i)).getText();
+                                if (length < s.length()){
+                                    //System.out.println(s + ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName());
+                                    JOptionPane.showMessageDialog(null, (((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getName() + " - Upisali ste previse karaktera"));
+                                    allGood = 0;
+                                }
+                                values += "'" + s + "'";
+                            }else{
+                                values += ((JTextField) panel.getComponent(i)).getText();
+                            }
+                            if(txtCnt < attributeNames.size()) values += ", ";
+                        }
+
+                    }
+                }
+
+
+        }
+        String upit = "";
+        for (int k = 0; k < vrednostiKljuceva.size(); k++){
+            if (k != 0){
+                upit += " AND ";
+            }
+            upit += vrednostiKljuceva.get(k);
+        }
+        System.out.println(upit);
+        System.out.println(values);
+        if (upit.equals("")) {
+            allGood = 0;
+            JOptionPane.showMessageDialog(null, "Nemate nikakav izbor primarnog kljuca");
+        }
+        if (values.equals("")) {
+            allGood = 0;
+            JOptionPane.showMessageDialog(null, "Nemate nikakve promene");
+        }
+        if (allGood == 1){
+            MainFrame.getInstance().getAppCore().updateInTable(values, upit);
         }
 
     }

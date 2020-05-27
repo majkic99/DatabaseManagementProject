@@ -100,6 +100,11 @@ public class RemoveRowAction extends AbsDMAction {
             }
             upit += uslovi.get(k);
         }
+        if (upit.equals("")) {
+            allGood = 0;
+            JOptionPane.showMessageDialog(null, "Nemate nikakav izbor primarnog kljuca");
+        }
+
         System.out.println(upit);
         if (allGood == 1){
             MainFrame.getInstance().getAppCore().deleteFromTable(upit);

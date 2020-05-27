@@ -36,6 +36,16 @@ public class DatabaseImplementation implements Database {
         repository.insert(values, name);
     }
 
+    @Override
+    public void delete(String upit, String name) {
+        repository.delete(upit,name);
+    }
+
+    @Override
+    public void update(String values, String upit, String name) {
+        repository.update(values, upit, name);
+    }
+
     public Repository getRepository() {
         return repository;
     }

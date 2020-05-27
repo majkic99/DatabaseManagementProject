@@ -269,6 +269,29 @@ public class MSSQLrepository implements Repository{
         }
     }
 
+    @Override
+    public void update(String values, String upit, String name) {
+        try{
+            this.initConnection();
+
+            String query = "update " + name  + " set " + values + " where " + upit;
+            System.out.println(query);
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+
+
+        }
+        catch (Exception e) {
+
+            // TODO Ako ubacis FK koji ne postoji
+            e.printStackTrace();
+        }
+        finally {
+            this.closeConnection();
+        }
+    }
+
     public Settings getSettings() {
         return settings;
     }

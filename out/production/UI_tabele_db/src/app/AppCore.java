@@ -104,4 +104,16 @@ public class AppCore extends PublisherImplementation {
         mainTableModel.setRows(this.database.readDataFromTable(this.currentEntity.getName()));
 
     }
+
+    public void deleteFromTable(String upit) {
+        this.database.delete(upit, this.currentEntity.getName());
+        mainTableModel.setRows(this.database.readDataFromTable(this.currentEntity.getName()));
+
+    }
+
+    public void updateInTable(String values, String upit) {
+        this.database.update(values, upit, this.currentEntity.getName());
+        mainTableModel.setRows(this.database.readDataFromTable(this.currentEntity.getName()));
+
+    }
 }
