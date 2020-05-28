@@ -92,7 +92,7 @@ public class AddRowAction extends AbsDMAction {
 
 
 
-                    if ( testString.equals("VARCHAR") || testString.equals("TEXT")|| testString.equals("NVARCHAR")|| testString.equals("DATETIME")|| testString.equals("CHAR")) {
+                    if ( testString.equals("VARCHAR") || testString.equals("TEXT")|| testString.equals("NVARCHAR")|| testString.equals("DATETIME")|| testString.equals("CHAR") || testString.equals("DATE")) {
                         int length = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getLength();
                         String s = ((JTextField) panel.getComponent(i)).getText();
                         if (length < s.length()){
