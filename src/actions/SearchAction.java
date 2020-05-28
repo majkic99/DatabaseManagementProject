@@ -77,13 +77,13 @@ public class SearchAction extends AbsDMAction {
                 brojcanik++;
                 upit += comboBox.getSelectedItem();
                 String operatorcic = "";
-                if (((String)operators.getSelectedItem()).equals("end")){
+                if (((String)operators.getSelectedItem()).equals("ends with")){
                     operatorcic = " like " + "'%" + textField.getText()+ "'";
                 }
-                if (((String)operators.getSelectedItem()).equals("start")){
+                if (((String)operators.getSelectedItem()).equals("starts with")){
                     operatorcic = " like " + "'" +textField.getText() + "%'" ;
                 }
-                if (((String)operators.getSelectedItem()).equals("has")){
+                if (((String)operators.getSelectedItem()).equals("contains")){
                     operatorcic = " like " + "'" + "%" + textField.getText() + "%"+ "'";
                 }
                 if (((String)operators.getSelectedItem()).equals("exact")){
@@ -118,13 +118,13 @@ public class SearchAction extends AbsDMAction {
                 upit += comboBox.getSelectedItem();
                 String operatorcic= "";
 
-                if (((String)operators.getSelectedItem()).equals("end")){
+                if (((String)operators.getSelectedItem()).equals("ends with")){
                     operatorcic = " like " + "'%" + textField.getText()+ "'";
                 }
-                if (((String)operators.getSelectedItem()).equals("start")){
+                if (((String)operators.getSelectedItem()).equals("starts with")){
                     operatorcic = " like " + "'" +textField.getText() + "%'" ;
                 }
-                if (((String)operators.getSelectedItem()).equals("has")){
+                if (((String)operators.getSelectedItem()).equals("contains")){
                     operatorcic = " like " + "'" + "%" + textField.getText() + "%"+ "'";
                 }
                 if (((String)operators.getSelectedItem()).equals("exact")){
@@ -180,9 +180,9 @@ public class SearchAction extends AbsDMAction {
                     System.out.println("tekst");
                     operators.removeAllItems();
 
-                    operators.addItem("start");
-                    operators.addItem("end");
-                    operators.addItem("has");
+                    operators.addItem("starts with");
+                    operators.addItem("ends with");
+                    operators.addItem("contains");
                     operators.addItem("exact");
 
 
