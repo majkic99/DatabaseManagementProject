@@ -116,4 +116,8 @@ public class AppCore extends PublisherImplementation {
         mainTableModel.setRows(this.database.readDataFromTable(this.currentEntity.getName()));
 
     }
+
+    public void search(String upit) {
+        mainTableModel.setRows(this.database.searchDataFromTable(this.currentEntity.getName(),upit));
+    }
 }

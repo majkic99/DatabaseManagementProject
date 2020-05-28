@@ -19,4 +19,6 @@ public interface Database{
     void delete(String upit, String name);
 
     void update(String values, String upit, String name);
+
+    List<Row> searchDataFromTable(String name, String upit);
 }

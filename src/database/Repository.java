@@ -18,4 +18,7 @@ public interface Repository {
     void delete(String upit, String name);
 
     void update(String values, String upit, String name);
+
+
+    List<Row> search(String name, String upit);
 }

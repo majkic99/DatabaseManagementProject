@@ -46,6 +46,11 @@ public class DatabaseImplementation implements Database {
         repository.update(values, upit, name);
     }
 
+    @Override
+    public List<Row> searchDataFromTable(String name, String upit) {
+        return repository.search(name, upit);
+    }
+
     public Repository getRepository() {
         return repository;
     }
