@@ -23,6 +23,8 @@ public class SearchAction extends AbsDMAction {
     private JButton and;
     private JButton or;
     private String upit;
+
+    private JLabel labela;
     int brojcanik;
     public SearchAction () {
 //        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -65,16 +67,18 @@ public class SearchAction extends AbsDMAction {
         operators.setSelectedItem(null);
         textField = new JTextField();
         textField.setName("polje");
+        labela = new JLabel();
 
         and = new JButton("AND");
         and.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
-            {
+            {   /*
                 if (brojcanik!=0){
                     upit+= " AND ";
                 }
                 brojcanik++;
+                */
                 upit += comboBox.getSelectedItem();
                 String operatorcic = "";
                 if (((String)operators.getSelectedItem()).equals("ends with")){
@@ -99,8 +103,13 @@ public class SearchAction extends AbsDMAction {
                     operatorcic = " > " + textField.getText() ;
                 }
                 upit += operatorcic;
+                labela.setText(upit);
+                upit+= " AND ";
                 System.out.println(upit);
                 textField.setText("");
+
+
+
             }
         });
 
@@ -111,10 +120,13 @@ public class SearchAction extends AbsDMAction {
         {
             public void actionPerformed(ActionEvent e)
             {
+                /*
                 if (brojcanik!=0){
                     upit+= " OR ";
                 }
                 brojcanik++;
+
+                 */
                 upit += comboBox.getSelectedItem();
                 String operatorcic= "";
 
@@ -140,8 +152,12 @@ public class SearchAction extends AbsDMAction {
                     operatorcic = " > " + textField.getText() ;
                 }
                 upit += operatorcic;
+                labela.setText(upit);
+                upit+= " OR ";
                 System.out.println(upit);
                 textField.setText("");
+
+
             }
         });
 
@@ -153,6 +169,35 @@ public class SearchAction extends AbsDMAction {
 
         if(JOptionPane.showConfirmDialog(null, panel, "Filter&Sort", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             System.out.println(upit);
+            if (!(textField.getText().equals(""))) {
+                upit += comboBox.getSelectedItem();
+                String operatorcic = "";
+
+                if (((String) operators.getSelectedItem()).equals("ends with")) {
+                    operatorcic = " like " + "'%" + textField.getText() + "'";
+                }
+                if (((String) operators.getSelectedItem()).equals("starts with")) {
+                    operatorcic = " like " + "'" + textField.getText() + "%'";
+                }
+                if (((String) operators.getSelectedItem()).equals("contains")) {
+                    operatorcic = " like " + "'" + "%" + textField.getText() + "%" + "'";
+                }
+                if (((String) operators.getSelectedItem()).equals("exact")) {
+                    operatorcic = " like " + "'" + textField.getText() + "'";
+                }
+                if (((String) operators.getSelectedItem()).equals("<")) {
+                    operatorcic = " < " + textField.getText();
+                }
+                if (((String) operators.getSelectedItem()).equals("=")) {
+                    operatorcic = " = " + textField.getText();
+                }
+                if (((String) operators.getSelectedItem()).equals(">")) {
+                    operatorcic = " > " + textField.getText();
+                }
+                upit += operatorcic;
+            }
+            System.out.println(upit);
+            textField.setText("");
             MainFrame.getInstance().getAppCore().search(upit);
         }
 
@@ -209,6 +254,7 @@ public class SearchAction extends AbsDMAction {
                 panel.add(textField);
                 panel.add(and);
                 panel.add(or);
+                panel.add(labela);
 
 
 
