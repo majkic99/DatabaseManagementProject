@@ -174,6 +174,8 @@ public class EditAction extends  AbsDMAction {
                 }
 
 
+        } else {
+            return;
         }
         String upit = "";
         for (int k = 0; k < vrednostiKljuceva.size(); k++){

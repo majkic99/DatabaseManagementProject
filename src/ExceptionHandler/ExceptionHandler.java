@@ -1,4 +1,4 @@
-package database;
+package ExceptionHandler;
 
 
 import javax.swing.*;

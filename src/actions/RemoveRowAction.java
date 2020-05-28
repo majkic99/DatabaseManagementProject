@@ -92,6 +92,8 @@ public class RemoveRowAction extends AbsDMAction {
 
                 }
             }
+        } else {
+            return;
         }
         String upit = "";
         for (int k = 0; k < uslovi.size(); k++){

@@ -20,5 +20,9 @@ public interface Database{
 
     void update(String values, String upit, String name);
 
+    List<Row> report(String operation, String col, String groupBy);
+
+    List<Row> updateRelationTable(String upit, String currentRelationName);
+
     List<Row> searchDataFromTable(String name, String upit);
 }

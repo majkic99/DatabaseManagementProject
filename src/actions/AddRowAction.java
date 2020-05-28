@@ -115,6 +115,8 @@ public class AddRowAction extends AbsDMAction {
 
 
 
+        } else {
+            return;
         }
 
     }

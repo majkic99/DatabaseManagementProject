@@ -1,7 +1,8 @@
 package database;
 
+import ExceptionHandler.ExceptionHandler;
 import database.settings.Settings;
-import org.w3c.dom.Attr;
+import gui.MainFrame;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;
@@ -131,7 +132,6 @@ public class MSSQLrepository implements Repository{
             }
 
 
-            //TODO Ogranicenja nad kolonama? Relacije?
 
             return ir;
             // String isNullable = columns.getString("IS_NULLABLE");
@@ -200,6 +200,56 @@ public class MSSQLrepository implements Repository{
             }
 
             System.out.println(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+
+                Row row = new Row();
+                row.setName(name);
+
+                ResultSetMetaData resultSetMetaData = rs.getMetaData();
+                for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+                    row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+                }
+                rows.add(row);
+
+            }
+        }
+        catch (Exception e) {
+            ExceptionHandler.sqlHandle();
+        }
+        finally {
+            this.closeConnection();
+        }
+
+        return rows;
+    }
+
+    @Override
+    public List<Row> report(String operation, String col, String groupBy) {
+
+        List<Row> rows = new ArrayList<>();
+        String name = MainFrame.getInstance().getAppCore().getCurrentEntity().getName();
+
+
+        try{
+            this.initConnection();
+            String query;
+
+            if(operation.equals("AVERAGE"))
+                operation = "AVG";
+
+            if (!(groupBy.equals(""))){
+                query = "SELECT " + operation + "(" + col + "), " +
+                        groupBy + " FROM " + name;
+                query += " GROUP BY " + groupBy + ";";
+            } else {
+                query = "SELECT " + operation + "(" + col + ")" + " FROM " +
+                        name + ";";
+            }
+
+            System.out.println("** "+query+" **");
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
 

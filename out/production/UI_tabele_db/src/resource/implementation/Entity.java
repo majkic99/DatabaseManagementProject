@@ -15,6 +15,18 @@ public class Entity extends DBNodeComposite {
     private List<String> relacije;
     private List<Entity> relacijeEntiteta;
 
+    private List<String> fkNameinThis;
+    private List<String> pkNameinThat;
+
+
+    public List<String> getFkNameinThis() {
+        return fkNameinThis;
+    }
+
+    public List<String> getPkNameinThat() {
+        return pkNameinThat;
+    }
+
 
 
 
@@ -23,6 +35,8 @@ public class Entity extends DBNodeComposite {
         super(name, parent);
         this.ID = count++;
         relacije = new ArrayList<String>();
+        fkNameinThis = new ArrayList<String>();
+        pkNameinThat = new ArrayList<String>();
     }
 
     @Override

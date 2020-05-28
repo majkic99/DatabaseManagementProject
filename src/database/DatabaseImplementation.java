@@ -56,6 +56,11 @@ public class DatabaseImplementation implements Database {
         return repository.findRelationInfo(upit, currentRelationName);
     }
 
+    @Override
+    public List<Row> report(String operation, String col, String groupBy) {
+        return repository.report(operation, col, groupBy);
+    }
+
     public Repository getRepository() {
         return repository;
     }

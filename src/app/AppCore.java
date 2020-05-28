@@ -135,4 +135,8 @@ public class AppCore extends PublisherImplementation {
     public void updateRelationTable(String upit, String currentRelationName) {
         relationTableModel.setRows(this.database.updateRelationTable(upit,currentRelationName));
     }
+
+    public void report(String operation, String col, String groupBy) {
+        mainTableModel.setRows(this.database.report(operation, col, groupBy));
+    }
 }

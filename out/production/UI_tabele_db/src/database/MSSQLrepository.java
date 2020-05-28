@@ -1,7 +1,8 @@
 package database;
 
+import ExceptionHandler.ExceptionHandler;
 import database.settings.Settings;
-import org.w3c.dom.Attr;
+import gui.MainFrame;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;
@@ -113,6 +114,9 @@ public class MSSQLrepository implements Repository{
                         if (columnName.equals(foreignKeys.getString("FKCOLUMN_NAME"))) {
                             newTable.getRelacije().add(foreignKeys.getString("PKTABLE_NAME"));
                             //System.out.println("test" + foreignKeys.getString("PKTABLE_NAME"));
+                            newTable.getFkNameinThis().add(foreignKeys.getString("FKCOLUMN_NAME"));
+                            newTable.getPkNameinThat().add(foreignKeys.getString("PKCOLUMN_NAME"));
+
 
                             AttributeConstraint fkConstraint = new AttributeConstraint("Foreign Key", attribute, ConstraintType.FOREIGN_KEY);
                             attribute.addChild(fkConstraint);
@@ -128,7 +132,6 @@ public class MSSQLrepository implements Repository{
             }
 
 
-            //TODO Ogranicenja nad kolonama? Relacije?
 
             return ir;
             // String isNullable = columns.getString("IS_NULLABLE");
@@ -197,6 +200,56 @@ public class MSSQLrepository implements Repository{
             }
 
             System.out.println(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+
+                Row row = new Row();
+                row.setName(name);
+
+                ResultSetMetaData resultSetMetaData = rs.getMetaData();
+                for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+                    row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+                }
+                rows.add(row);
+
+            }
+        }
+        catch (Exception e) {
+            ExceptionHandler.sqlHandle();
+        }
+        finally {
+            this.closeConnection();
+        }
+
+        return rows;
+    }
+
+    @Override
+    public List<Row> report(String operation, String col, String groupBy) {
+
+        List<Row> rows = new ArrayList<>();
+        String name = MainFrame.getInstance().getAppCore().getCurrentEntity().getName();
+
+
+        try{
+            this.initConnection();
+            String query;
+
+            if(operation.equals("AVERAGE"))
+                operation = "AVG";
+
+            if (!(groupBy.equals(""))){
+                query = "SELECT " + operation + "(" + col + "), " +
+                        groupBy + " FROM " + name;
+                query += " GROUP BY " + groupBy + ";";
+            } else {
+                query = "SELECT " + operation + "(" + col + ")" + " FROM " +
+                        name + ";";
+            }
+
+            System.out.println("** "+query+" **");
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -298,6 +351,7 @@ public class MSSQLrepository implements Repository{
             this.initConnection();
 
             String query = "SELECT * FROM " + name + " WHERE " + upit;
+            System.out.println(query);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -316,6 +370,43 @@ public class MSSQLrepository implements Repository{
         }
         catch (Exception e) {
             ExceptionHandler.sqlHandle();
+        }
+        finally {
+            this.closeConnection();
+        }
+
+        return rows;
+    }
+
+    @Override
+    public List<Row> findRelationInfo(String upit, String currentRelationName) {
+
+        List<Row> rows = new ArrayList<>();
+
+
+        try{
+            this.initConnection();
+
+            String query = "SELECT * FROM " + currentRelationName + " WHERE " + upit;
+            System.out.println(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+
+                Row row = new Row();
+                row.setName(currentRelationName);
+
+                ResultSetMetaData resultSetMetaData = rs.getMetaData();
+                for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+                    row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+                }
+                rows.add(row);
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
         finally {
             this.closeConnection();

@@ -19,6 +19,9 @@ public interface Repository {
 
     void update(String values, String upit, String name);
 
+    List<Row> findRelationInfo(String upit, String currentRelationName);
+
+    List<Row> report(String operation, String col, String groupBy);
 
     List<Row> search(String name, String upit);
 }
