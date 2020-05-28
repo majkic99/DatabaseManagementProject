@@ -315,7 +315,7 @@ public class MSSQLrepository implements Repository{
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            ExceptionHandler.sqlHandle();
         }
         finally {
             this.closeConnection();
