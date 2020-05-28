@@ -22,6 +22,16 @@ public class AppCore extends PublisherImplementation {
     private InformationResource irRoot;
     private Entity currentEntity;
 
+    public String getCurrentRelationName() {
+        return currentRelationName;
+    }
+
+    public void setCurrentRelationName(String currentRelationName) {
+        this.currentRelationName = currentRelationName;
+    }
+
+    private String currentRelationName;
+
 
     public InformationResource getIrRoot() {
         return irRoot;
@@ -62,6 +72,7 @@ public class AppCore extends PublisherImplementation {
 
     public void readDataFromTableRelation(String fromTableRelation) {
         relationTableModel.setRows(this.database.readDataFromTable(fromTableRelation));
+        currentRelationName = fromTableRelation;
     }
 
     public TableModel getTableModelFromTable(String fromTable){
@@ -119,5 +130,9 @@ public class AppCore extends PublisherImplementation {
 
     public void search(String upit) {
         mainTableModel.setRows(this.database.searchDataFromTable(this.currentEntity.getName(),upit));
+    }
+
+    public void updateRelationTable(String upit, String currentRelationName) {
+        relationTableModel.setRows(this.database.updateRelationTable(upit,currentRelationName));
     }
 }

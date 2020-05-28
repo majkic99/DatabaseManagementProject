@@ -51,6 +51,11 @@ public class DatabaseImplementation implements Database {
         return repository.search(name, upit);
     }
 
+    @Override
+    public List<Row> updateRelationTable(String upit, String currentRelationName) {
+        return repository.findRelationInfo(upit, currentRelationName);
+    }
+
     public Repository getRepository() {
         return repository;
     }

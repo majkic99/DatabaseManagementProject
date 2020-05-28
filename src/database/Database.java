@@ -21,4 +21,6 @@ public interface Database{
     void update(String values, String upit, String name);
 
     List<Row> searchDataFromTable(String name, String upit);
+
+    List<Row> updateRelationTable(String upit, String currentRelationName);
 }

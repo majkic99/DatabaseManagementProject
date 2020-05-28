@@ -113,6 +113,9 @@ public class MSSQLrepository implements Repository{
                         if (columnName.equals(foreignKeys.getString("FKCOLUMN_NAME"))) {
                             newTable.getRelacije().add(foreignKeys.getString("PKTABLE_NAME"));
                             //System.out.println("test" + foreignKeys.getString("PKTABLE_NAME"));
+                            newTable.getFkNameinThis().add(foreignKeys.getString("FKCOLUMN_NAME"));
+                            newTable.getPkNameinThat().add(foreignKeys.getString("PKCOLUMN_NAME"));
+
 
                             AttributeConstraint fkConstraint = new AttributeConstraint("Foreign Key", attribute, ConstraintType.FOREIGN_KEY);
                             attribute.addChild(fkConstraint);
@@ -298,6 +301,7 @@ public class MSSQLrepository implements Repository{
             this.initConnection();
 
             String query = "SELECT * FROM " + name + " WHERE " + upit;
+            System.out.println(query);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -316,6 +320,43 @@ public class MSSQLrepository implements Repository{
         }
         catch (Exception e) {
             ExceptionHandler.sqlHandle();
+        }
+        finally {
+            this.closeConnection();
+        }
+
+        return rows;
+    }
+
+    @Override
+    public List<Row> findRelationInfo(String upit, String currentRelationName) {
+
+        List<Row> rows = new ArrayList<>();
+
+
+        try{
+            this.initConnection();
+
+            String query = "SELECT * FROM " + currentRelationName + " WHERE " + upit;
+            System.out.println(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+
+                Row row = new Row();
+                row.setName(currentRelationName);
+
+                ResultSetMetaData resultSetMetaData = rs.getMetaData();
+                for (int i = 1; i<=resultSetMetaData.getColumnCount(); i++){
+                    row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+                }
+                rows.add(row);
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
         finally {
             this.closeConnection();

@@ -21,4 +21,6 @@ public interface Repository {
 
 
     List<Row> search(String name, String upit);
+
+    List<Row> findRelationInfo(String upit, String currentRelationName);
 }
