@@ -65,9 +65,9 @@ public class RelationsAction extends AbsDMAction {
         System.out.println(type);
         String upit = "";
         if (type.equals("CHAR") || type.equals("VARCHAR") || type.equals("TEXT")){
-            upit = s + " like " + "'" + kljuc + "'";
+            upit = pk + " like " + "'" + kljuc + "'";
         }else {
-            upit = s + " = " + kljuc;
+            upit = pk + " = " + kljuc;
         }
 
 
