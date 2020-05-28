@@ -86,6 +86,9 @@ public class SearchAction extends AbsDMAction {
                 if (((String)operators.getSelectedItem()).equals("has")){
                     operatorcic = " like " + "'" + "%" + textField.getText() + "%"+ "'";
                 }
+                if (((String)operators.getSelectedItem()).equals("exact")){
+                    operatorcic = " like " + "'"  + textField.getText() + "'";
+                }
                 if (((String)operators.getSelectedItem()).equals("<")){
                     operatorcic = " < " +  textField.getText() ;
                 }
@@ -123,6 +126,9 @@ public class SearchAction extends AbsDMAction {
                 }
                 if (((String)operators.getSelectedItem()).equals("has")){
                     operatorcic = " like " + "'" + "%" + textField.getText() + "%"+ "'";
+                }
+                if (((String)operators.getSelectedItem()).equals("exact")){
+                operatorcic = " like " + "'"  + textField.getText() + "'";
                 }
                 if (((String)operators.getSelectedItem()).equals("<")){
                     operatorcic = " < " +  textField.getText() ;
@@ -177,6 +183,7 @@ public class SearchAction extends AbsDMAction {
                     operators.addItem("start");
                     operators.addItem("end");
                     operators.addItem("has");
+                    operators.addItem("exact");
 
 
                 }else{
