@@ -100,6 +100,7 @@ public class EditAction extends  AbsDMAction {
         int allGood = 1;
         String values = "";
         int txtCnt = 0;
+        int fieldCnt = 0;
         if(JOptionPane.showConfirmDialog(null, panel,
                 "Edit " + MainFrame.getInstance().getAppCore().getCurrentEntity().getName(),
                 JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
@@ -135,10 +136,14 @@ public class EditAction extends  AbsDMAction {
                         if (panel.getComponent(i).getName().equals("UpdatedValue")) {
 
                             txtCnt++;
+
                             if (((JTextField) panel.getComponent(i)).getText().equals("")){
 
                                 continue;
                             }
+                            fieldCnt++;
+                            System.out.println(txtCnt);
+                            if(fieldCnt!= 1) values += ", ";
                             String testString = ((Attribute)MainFrame.getInstance().getAppCore().getCurrentEntity().getChildren().get(txtCnt-1)).getAttributeType().toString();
                             if (testString.equals("DECIMAL") || testString.equals("FLOAT") || testString.equals("BIGINT") || testString.equals("INT") ||
                                     testString.equals("NUMERIC") || testString.equals("INT") || testString.equals("SMALLINT")){
@@ -167,7 +172,7 @@ public class EditAction extends  AbsDMAction {
                             }else{
                                 values += ((JTextField) panel.getComponent(i)).getText();
                             }
-                            if(txtCnt < attributeNames.size()) values += ", ";
+
                         }
 
                     }
