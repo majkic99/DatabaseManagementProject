@@ -1,2 +1,2 @@
 # DatabaseManagementProject
-Projekat iz Baza Podataka 2020
+Database Managament System using JDBC library. GUI done with Swing. Follows MVC architecture and uses Bridge pattern to do CRUD and other database operations.
